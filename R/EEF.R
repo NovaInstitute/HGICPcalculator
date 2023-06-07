@@ -1,4 +1,16 @@
 
+#' calculatEEFwithRR
+#'
+#' @param data tibble
+#' @param groupvar Character. Default "households"
+#' @param XBijk Character. Default "XBijk"
+#' @param XMijk Character. Default "XMijk"
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculatEEFwithRR <- function(data,
                               groupvar = "households",
                               XBijk = "XBijk",
@@ -6,12 +18,13 @@ calculatEEFwithRR <- function(data,
   # xBi
   # XBij
 
-  meanrr <- calculateRRj(data, ...) %>%
+  meanrr <- calculateRRj(data, groupvar = groupvar, ...) %>%
     pull(rr) %>%
     `[`(is.finite(.)) %>%
     mean()
 
   calculateXMB(data,
+               groupvar = groupvar,
                XBijk = XBijk,
                XMijk = XMijk,
                ...) %>%

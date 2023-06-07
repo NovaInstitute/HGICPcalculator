@@ -1,11 +1,11 @@
-#' Title
+#' calculateER
 #'
 #' @param BE tibble from calculateE(  ..., outcome = "BE")
 #' @param PE tibble from calculateE(  ..., outcome = "PE")
 #' @param LE tibble from calculateE(  ..., outcome = "LE")
 #' @param onlyOutcomeAndGroups Logical
 #'
-#' @return
+#' @return data.frame
 #' @export
 #'
 #' @examples
@@ -21,3 +21,23 @@ calculateER <- function(BE, PE, LE){
     summarise(ER = sum(ER, na.rm = TRUE))
 
 }
+
+
+
+#' simulateER
+#'
+#' @param data
+#' @param ...
+#'
+#' @return data.frame
+#' @export
+
+
+simulateER <- function(data, ...){
+  BE <- simulateBE(data) %>% pull(estimate)
+  PE <- simulatePE(data) %>% pull(estimate)
+
+  data.frame(estimate = BE - PE)
+}
+
+

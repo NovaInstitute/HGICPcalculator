@@ -2,10 +2,7 @@
 library(tidyverse)
 library(logspline)
 
-if (Sys.info()[["user"]] == "christiaanpauw") {
-  load("Rda/BaselineKitchenTest/BKTres.Rda")
-} else {
-  load("R/Data/res.Rda")}
+load("data/BKTres.Rda")
 
 #x <- res %>% select(data) %>% unnest(data) %>%
 #  pull(qr_code_household,kg_p_fire) %>% na.omit()
@@ -103,7 +100,7 @@ MASS::fitdistr(firelog$n, "negative binomial")
 firelog_B <- firelog$n
 firelog_M <- rpois(n = 420, lambda = 1.35) # moet nog uit data bereken word
 
-fn = "Rda/Simulation/parameters.Rda"
+fn = "data/parameters.Rda"
 
 save(kgparm, kgparm_B, nfireparm, firelog_B, firelog_M, file = fn)
 

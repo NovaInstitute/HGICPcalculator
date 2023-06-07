@@ -1,3 +1,18 @@
+#' simulateBE
+#'
+#' @param data tibble
+#' @param ...
+#' @return data.frame
+#' @export
+
+simulateBE <- function(data, ...){
+
+  CB <- simulateCB(data) %>% pull(estimate)
+  EF <- dfCOEF$COEF[[1]]
+  fNRB <- dffNRB$fNRB[[1]]
+  data.frame(estimate = CB * EF * fNRB)
+}
+
 #' calculateE
 #' @description
 #' Generec emission calculation function
@@ -11,11 +26,11 @@
 #' @examples calculateE(Cby)
 
 calculateE<- function(Cy,
-                       COEF = dfCOEF ,
-                       fNRB = dffNRB,
-                       var = "CB",
-                       outcome = "BE",
-                       onlyOutcomeAndGroups = TRUE){
+                      COEF = dfCOEF ,
+                      fNRB = dffNRB,
+                      var = "CB",
+                      outcome = "BE",
+                      onlyOutcomeAndGroups = TRUE){
   if (!(is_tibble(Cy) & is_tibble(COEF) & is_tibble(fNRB))) stop("Cy and COEF and fNRB must be tibbles")
 
   res <- left_join(Cy, COEF) %>%

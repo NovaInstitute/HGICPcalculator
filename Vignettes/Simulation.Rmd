@@ -16,19 +16,23 @@ header-includes: \usepackage{longtable} \usepackage{float} \usepackage{subfig} \
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
-<!-- P01.05	Map reporting indicators
-P01.05.01	Finalise list of indicators
-P01.05.02	Detail specification for each
-P01.05.03	Definition, rationale, Credibility,  calculation (Formula, UoM) -->
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+load("data/SimulationERcalcs.Rda")
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+library(units)
+```
 
 
 ```{=tex}
 \clearpage
 \pagenumbering{roman}
 \tableofcontents
+\listoftables
 \newpage
 \pagenumbering{arabic}
 ```
@@ -108,11 +112,27 @@ $$ER_{y} = BE_{y}- PE_{y}-LE_{y}$$
 Where:  
 
 $ER_{y} =$ The total mass of CO~2~ avoided in year *y* across all project participants due to the project activity (tonnes)  
+
 $BE_{y} =$ The total baseline CO~2~ emissions for year *y* across all project participants (tonnes)  
+
 $PE_{y} =$ The total project CO~2~ emissions for year *y* across all project participants (tonnes)
+
 $LE_{y} =$ The total leakage CO~2~ emissions for year *y* across all project participants (tonnes)
 
 #### Presentation and simulation results
+
+```{r ER}
+kable(BE %>% 
+        left_join(PE) %>% 
+        left_join(LE) %>% 
+        left_join(ER) %>% 
+        ungroup(), 
+      digits = 2, 
+      booktabs = TRUE, 
+      caption = "Calculation of ER from simulation study") 
+```
+
+\clearpage
 
 ## Calculation of project CO~2~ emissions 
 
@@ -127,12 +147,18 @@ $$PE_{y} = \sum_{f} C_{(P)y,f} \times EF_{(CO_2)f} \times f_{(NRB)y}$$
 Where:  
 
 $C_{(P)y,f} =$ The total project consumption of fuel *f* for year *y* across all project participants (tonnes)  
+
 $EF_{(CO_2)f} =$ CO~2~ emission factor for fuel *f*  
+
 $f_{(NRB)y} =$ The fraction of non-renewable biomass in the fuel-sourcing environment for year *y* 
 
 For simplicity in notation we will from this point forth use the notation $C_{(P)}$ for $C_{(P)y,f}$ with the understanding that $C_{(P)}$ is the total fuel consumption across all subpopulations and households for year *y* and fuel type *f*. 
 
 #### Presentation and simulation results
+
+```{r PE}
+kable(PE %>% left_join(CPy) %>% select(PE, CP ) %>%  left_join(dfCOEF) %>% left_join(dffNRB), digits = 2, booktabs = TRUE, caption = "Calculation of PE from simulated results")
+```
 
 ### Calculation of $\bm{C_{(P)}}$
 
@@ -145,7 +171,6 @@ $$C_{(P)} =
 
 and $C_{(P)i}$ is the total fuel consumption in the project scenario for subpopulation *i*.
 
-#### Presentation and simulation results
 
 ### Calculation of $\bm{C_{(P)i}}$ 
 
@@ -156,13 +181,24 @@ $C_{(P)i}$ is calculated as
 
 $$C_{(P)i}=(\overline{d}_{(P)i} \times N_{(P)i}) \times (\overline{fr^*}_{(BS)i} \times \overline{x}_{(BS)i})$$
 
-*   $\overline{d}_{(P)i}$ is the average days of project operatian in subpopulation *i*.
+*   $\overline{d}_{(P)i}$ is the average days of project operation in subpopulation *i*.
 *   $N_{(P)i}$ is the project population size in subpopulation *i*.
 *   $\overline {fr^*}_{(BS)i}$ is the average Brick Star frequency per day in subpopulation *i* in the post KT phase .
 *   $\overline{x}_{(BS)i}$ is the average Brick Star fuel use (in kg) for subpopulation *i* in the project scenario of the KT phase.
 
 #### Presentation and simulation results
 
+```{r CPy}
+kable(CPy %>% select(-sd_days, -assignment), digits = 2, 
+      booktabs = TRUE, 
+      caption = "Calculation of project emissions")
+```
+
+```{r}
+kable(CPij %>% head() %>% select(-kg_p_month_m2),
+      digits = 2, booktabs = TRUE, 
+      caption = "Sample of data from project kitchen test results summarised by household")
+```
 
 ### Calculation of $\bm{d_{ij}}$
 
@@ -174,11 +210,18 @@ and $d_{ij}$ is the total days of project operation for household *j* in subpopu
 
 #### Presentation and simulation results
 
+```{r}
+kable(CPij_f %>% ungroup() %>% select(-assignment) %>% set_names(gsub("household_|_monitoring_period", "", names(.))) %>% head(),
+      digits = 1, booktabs = TRUE, caption = "Sample of continuous monitoring data summarised by household") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+
 ### Calculation of $\bm{\overline{fr^*}_{(BS)i}}$
 
 #### Calculation
 
-The average Brick Star frequency per day $\overline{fr^*}_{(BS)i}$ for subpopulation *i* is determined from a sample in the post KT phase and is calculated as
+The average Brick Star frequency per day $\overline{fr^*}_{(BS)i}$ for subpopulation *i* is determined from a sample in the continuous monitoring phase and is calculated as
 $$\overline{fr^*}_{(BS)i}=\frac{1}{n^*_i} \sum_i^{n^*_i}\frac{fr^*_{(BS)ij.}}{n^*_{ij}}$$
 
 *   $fr^*_{(BS)ij.}$ is the total frequency Brick Star fires for household *j* in subpopulation *i* for the post KT phase.
@@ -190,11 +233,19 @@ $$\overline{fr^*}_{(BS)i}=\frac{1}{n^*_i} \sum_i^{n^*_i}\frac{fr^*_{(BS)ij.}}{n^
 
 #### Presentation and simulation results
 
+
+```{r}
+kable(dfFreqRes %>% ungroup() %>% select(-assignment) %>% set_names(gsub("household_|_monitoring_period", "", names(.))) %>% head(),
+      digits = 1, booktabs = TRUE, caption = "Sample of daily monitoring data") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+
 ### Calculation of $\bm{\overline{x}_{(BS)i}}$
 
 #### Calculation
 
-The average Brick Star fuel use (in kg) in the project scenario for subpopulation *i* is calculated as the average of the household average fuel use per Brick Star fire.  $$\overline{x}_{(BS)i}=\frac{1}{n_{(P)i}}\sum_{j}^{n_{i}} \frac{x_{(BS)ij.}}{fr_{(BS)ij.}}$$
+The average Brick Star fuel use (in kg) in the project scenario for subpopulation *i* is calculated as the average of the household average fuel use per Brick Star fire observed in the kitchen test.  $$\overline{x}_{(BS)i}=\frac{1}{n_{(P)i}}\sum_{j}^{n_{i}} \frac{x_{(BS)ij.}}{fr_{(BS)ij.}}$$
 
 
 #### Presentation and simulation results
@@ -206,7 +257,23 @@ The average Brick Star fuel use (in kg) in the project scenario for subpopulatio
 The total Brick Star fuel use for household *j* in subpopulation *i* is the total fuel use in the project scenario minus the fuel use by non-Brick Star fires in the project scenario.
 
 $$x_{(BS)ij.}=x_{(P)ij.}-(\overline{x}_{(B)i} \times (fr_{(P)ij.}-fr_{(BS)ij.}))$$
+
 #### Presentation and simulation results
+
+
+
+```{r}
+kable(dfresP %>%
+        ungroup() %>% 
+        select(-kg_p_month_m2) %>%
+        set_names(gsub("household_|_monitoring_period", "", names(.))) %>% 
+        head(),
+      digits = 1, booktabs = TRUE, 
+      caption = "Sample of kitchen test monitoring data summarised by household") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+\clearpage
 
 ## Calculation of baseline CO~2~ emissions
 
@@ -228,6 +295,11 @@ For simplicity in notation we will from this point forth use the notation $C_{(B
 
 #### Presentation and simulation results
 
+```{r}
+kable(BE %>% left_join(CBy) %>% select( BE, CB ) %>%  left_join(dfCOEF) %>% left_join(dffNRB), digits = 2, booktabs = TRUE, caption = "Calculation of BE from simulated results") %>%  kableExtra::kable_styling(latex_options = c("HOLD_position" ))
+```
+
+
 ### Calculation of $\bm{C_{(B)}}$
 
 #### Calculation 
@@ -241,6 +313,13 @@ $C_{(P)i}$ is the total fuel consumption for subpopulations *i* (see calculation
 $eef_i$ is the energy efficiency factor for subpopulation *i*.
 
 #### Presentation and simulation results
+
+
+
+```{r}
+kable(CBy %>% select(-assignment, -sd_days ), digits = 2, booktabs = TRUE, caption = "Calculation of CBy from simulated results") %>%  kableExtra::kable_styling(latex_options = c("HOLD_position", "scale_down" ))
+```
+
 
 ### Calculation of $\bm{eef_i}$
 
@@ -260,6 +339,11 @@ $\overline{x}_{(BS)i}$ the average Brick Star fuel use (in kg) in the baseline s
 
 #### Presentation and simulation results
 
+```{r}
+kable(eef, digits = 1, booktabs = TRUE, caption = "Calculation of $eef$ from simulated data") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position" ))
+```
+
 ### Calculation of $\bm{\overline{x}_{(B)i}}$
 
 #### Calculation
@@ -271,6 +355,18 @@ and $\overline{x}_{(B)ij}$ is the average fuel use (in kg) in the baseline scena
 
 #### Presentation and simulation results
 
+```{r}
+kable(dfresB %>%
+        ungroup() %>% 
+        select(-kg_p_month_m2) %>%
+        set_names(gsub("household_|_monitoring_period", "", names(.))) %>% 
+        head(5),
+      digits = 1, booktabs = TRUE, 
+      caption = "Sample of baseline kitchen test monitoring data summarised by household") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position"))
+```
+
+
 ### Calculation of $\bm{\overline{rr}_{i}}$
 
 #### Calculation
@@ -279,8 +375,6 @@ The average replacement ratio is the average ratio for subpopulation *i* of the 
 
 $$\overline{rr}_{i} = \frac{1}{n_{ij}}\sum_{j} rr_{ij}$$
 and $rr_{ij}$ is the replacement ratio for household *j* in subpopulation *i*.
-
-#### Presentation and simulation results
 
 ### Calculation $\bm{rr_{ij}}$
 
@@ -291,6 +385,11 @@ $\overline{fr}_{(B)ij}$ is the average number of fires per day in the baseline s
 
 #### Presentation and simulation results
 
+```{r}
+kable(calculatEEFwithRR(data = projectKT, groupvar = "households"), digits = 1, booktabs = TRUE, caption = "Calculation of $eef$ and $rr$")
+```
+
+
 ### Calculation of $\bm{\overline{fr}_{(B)ij}}$
 
 #### Calculation
@@ -298,7 +397,8 @@ $\overline{fr}_{(B)ij}$ is the average number of fires per day in the baseline s
 $$\overline{fr}_{(B)ij} = \frac{fr_{(B)ij.}}{{n_{(B)ij}}}$$
 Similarly $\overline{fr}_{(P)}ij$ is the average number of fires per day in the project scenario for household *j* in subpopulation *i* $$\overline{fr}_{(P)ij} = \frac{fr_{(P)ij.}}{{n_{(P)ij}}}$$ and $\overline{fr}_{(BS)ij}$ is the average number of Brick Star fires per day in the project scenario for household *j* in subpopulation *i* $$\overline{fr}_{(BS)ij} = \frac{fr_{(BS)ij.}}{{n_{(BS)ij}}}$$ 
 
-#### Presentation and simulation results
+
+\clearpage
 
 ## Calculation of leakage CO~2~ emissions
 
@@ -313,14 +413,18 @@ $$LE_{y} = \sum_{f} L_{(P)y,f} \times EF_{(CO_2)f} \times f_{(NRB)y}$$
 
 Where:  
 
-$L_{(P)y,f} =$ The total baseline consumption of fuel *f* for year *y* across all project participants (tonnes)  
+$L_{(P)y,f} =$ The total leakage consumption of fuel *f* for year *y* across all project participants. This is fuel consumption by the baseline technologies in the project scenario (tonnes)  
 $EF_{(CO_2)f} =$ CO~2~ emission factor for fuel *f*  
 $f_{(NRB)y} =$ The fraction of non-renewable biomass in the fuel-sourcing environment for year *y*   
 
-For simplicity in notation we will from this point forth use the notation $L_{(P)}$ for $L_{(P)y,f}
-$ with the understanding that $L_{}$ is the total fuel consumption across all subpopulations and households for year *y* and fuel type *f*. 
+For simplicity in notation we will from this point forth use the notation $L_{(P)}$ for $L_{(P)y,f}$ with the understanding that $L_{}$ is the total fuel consumption across all subpopulations and households for year *y* and fuel type *f*. 
 
-### Calculation or $\bm{L_{(P)}}$
+```{r}
+kable(LE %>% left_join(CLy ) %>% select( LE, LP ) %>%  left_join(dfCOEF) %>% left_join(dffNRB), digits = 2, booktabs = TRUE, caption = "Calculation of BE from simulated results") %>%  kableExtra::kable_styling(latex_options = c("HOLD_position" ))
+```
+
+
+### Calculation or $\bm{L_{(P)}}$ and $\bm{L_{(P)i}}$ 
 
 #### Calculation
 
@@ -329,7 +433,6 @@ $L_{(P)}$ is calculated as:
 $$L_{(P)} = \sum_{i}^{n_i}  L_{(P)i}$$
 and $L_{(P)i}$ is the total leakage in the project scenario for subpopulation *i*.
 
-### Calculation of $\bm{L_{(P)i}}$ 
 
 $L_{(P)i}$ is calculated as 
 
@@ -340,10 +443,10 @@ $$L_{(P)i}=(\overline{d}_{(P)i} \times N_{(P)i}) \times (
 *   $N_{(P)i}$ is the project population size in subpopulation *i*.
 *   $\overline{frr}_i$ is the average frequency ratio of non Brick Star fires to the Brick Star fires in subpopulation *i* in the project scenario of the KT phase.
 *   $\overline {fr^*}_{(BS)i}$ is the average Brick Star frequency per day in subpopulation *i* in the post KT phase .
-*   $\overline{x}_{(B)i}$ is the average fuel use (in kg) for subpopulation *i* in the baseline scenario of the KT phase.
+*   $\overline{x}_{(B)i}$ is the average fuel use (in kg) for subpopulation *i* in the baseline scenario of the KT phase. This is derived from the baseline kitchen performance test. 
 
 ### Calculation of $\bm{\overline{frr}_i }$
 
 The average frequency ratio of non-Brick Star fires to the Brick Star fires in the project scenario for household *j* in subpopulation *i* is calculated as $$\overline{frr}_i = \frac {1}{n_{(P)i}} \sum_{j}\frac{fr_{(P)ij.}-fr_{(BS)ij.}}{fr_{(BS)ij.}}$$
 
-
+These values are derived from the project kitchen test. 

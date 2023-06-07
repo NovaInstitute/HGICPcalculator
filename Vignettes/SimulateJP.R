@@ -1,24 +1,28 @@
 library(tidyverse)
 library(CTOWWS)
 library(DeclareDesign)
+library(randomizr)
 library(units)
+library(HGICPcalculator)
 
-load(file = "Rda/Simulation/parameters.Rda")
+load(file = "data/parameters.Rda")
 
-source("R/Simulation/FrM.R")
-source("R/Simulation/CB.R")
-source("R/Simulation/CP.R")
-source("R/Simulation/EEF.R")
-source("R/Simulation/Leakage.R")
-source("R/Simulation/RR.R")
-source("R/Simulation/XBi.R")
-source("R/Simulation/XMB.R")
-source("R/Simulation/XMi.R")
-source("R/Simulation/calculateBE.R")
-source("R/Simulation/calculateER.R")
-source("R/Simulation/simulationFunctions.R")
+# source("R/FrM.R")
+# source("R/CB.R")
+# source("R/CP.R")
+# source("R/EEF.R")
+# source("R/Leakage.R")
+# source("R/RR.R")
+# source("R/XBi.R")
+# source("R/XMB.R")
+# source("R/XMi.R")
+# source("R/calculateBE.R")
+# source("R/calculateER.R")
+# source("R/simulationFunctions.R")
 
-Nhh = 50
+Nhh = 1000
+nweek = 52
+ndpweek = 7
 Bfrq = nfireparm$estimate
 BKg_shape = kgparm_B$estimate["shape"]
 BKg_scale = kgparm_B$estimate["scale"]
@@ -48,13 +52,13 @@ model <- declare_model(
   wday = fabricatr::add_level(
     N = 7,
     weekday = lubridate::wday(1:7, label = TRUE),
-    frBijk = sample(firelog_B, size = 18200, replace = TRUE),
-    gam = rgamma(n = 18200, shape = BKg_shape  , scale = BKg_scale),
+    frBijk = sample(firelog_B, size = (Nhh * nweek * ndpweek), replace = TRUE),
+    gam = rgamma(n = (Nhh * nweek * ndpweek), shape = BKg_shape  , scale = BKg_scale),
     XBijk = frBijk * gam,
-    frPijk = sample(firelog_M, size = 18200, replace = TRUE),
+    frPijk = sample(firelog_M, size = (Nhh * nweek * ndpweek), replace = TRUE),
     frMijk  = rbeta(n = Nhh, shape1 = PropP, shape2 = 1-PropP) * frPijk,
     frBPijk = frPijk - frMijk,
-    XMijk = frMijk * rgamma(n = 18200, shape = MKg_shape  , scale = MKg_scale),
+    XMijk = frMijk * rgamma(n = (Nhh * nweek * ndpweek), shape = MKg_shape  , scale = MKg_scale),
     XBPijk = frBPijk * gam,
     XPijk = XMijk + XBPijk,
     aveXBPijk = XBPijk / frBPijk,
@@ -81,10 +85,7 @@ inq_ER <- declare_inquiries(
   LE = calculateE(Cy = dffNRB %>% mutate(fuel = "wood", L = as_units(CLf, "kg")),
                   var = "L",
                   outcome = "LE" ) %>% pull(LE) %>% as.numeric() ,
-  ER = calculateER(BE = dffNRB %>% mutate(fuel = "wood", BE = as_units(BE, "kg")),
-                   PE = dffNRB %>% mutate(fuel = "wood", PE = as_units(PE, "kg")),
-                   LE = dffNRB %>% mutate(fuel = "wood", LE = as_units(LE, "kg"))
-  ) %>%  pull(ER)
+  ER = BE - PE  -LE
 )
 
 #ass <- declare_assignment(Z = conduct_ra(N = Nhh, clusters = households, m_each = c(20, 20, 10)))
@@ -118,8 +119,8 @@ model + ass + inq_ER + est_Frm + est_XMi + est_CP + est_CB + est_XBi + est_BE + 
 # Create data
 all <- model() %>% ass() %>% tibble()
 baselineKT <- all %>% filter(Z_bw == 1 & Z_kt == 1)
-projectKT  <- all %>% filter(Z_pw == 1 & Z_kt == 1) %>%
-ConMon <- all %>% filter(Z_cmw == 1 & Z_cm == 1)
+projectKT  <- all %>% filter(Z_pw == 1 & Z_kt == 1)
+ConMon <- filter(all, Z_cmw == 1 & Z_cm == 1)
 
-save(all, baselineKT, projectKT, ConMon, file = "Rda/Simulation/SimulatedSampleResults.Rda")
+save(all, baselineKT, projectKT, ConMon, file = "data/SimulatedSampleResults.Rda")
 
