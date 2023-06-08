@@ -1,9 +1,5 @@
 
 
-
-
-
-
 #' calculateRRj
 #' @description
 #' Calculate replacement rate per household
@@ -23,11 +19,11 @@ calculateRRj <- function(data,
                         frBijk = "frBijk",
                         frPijk = "frPijk"){
 
-  data %>% group_by(!!sym(groupvar)) %>%
-    summarise(meanfrBij = mean(frBijk, na.rm = TRUE),
-              meanfrMij = mean(frMijk, na.rm = TRUE),
-              meanfrPij = mean(frPijk, na.rm = TRUE),
-              rr = (meanfrBij - (meanfrPij - meanfrMij)) / meanfrMij
+  data %>% group_by(!!!syms(groupvar)) %>%
+    summarise(frBij = mean(frBijk, na.rm = TRUE),
+              frMij = mean(frMijk, na.rm = TRUE),
+              frPij = mean(frPijk, na.rm = TRUE),
+              rr = (frBij - (frPij - frMij)) / frMij
     )
 }
 

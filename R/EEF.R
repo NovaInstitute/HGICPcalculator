@@ -11,20 +11,21 @@
 #' @export
 #'
 #' @examples
-calculatEEFwithRR <- function(data,
-                              groupvar = "households",
-                              XBijk = "XBijk",
-                              XMijk = "XMijk", ...){
+calculateEEFwithRR <- function(data,
+                               indexvars = c("place", "year", "fuel"),
+                               groupvar = "households",
+                               XBijk = "XBijk",
+                               XMijk = "XMijk", ...){
   # xBi
   # XBij
 
-  meanrr <- calculateRRj(data, groupvar = groupvar, ...) %>%
+  meanrr <- calculateRRj(data, groupvar = c(groupvar, indexvars), ...) %>%
     pull(rr) %>%
     `[`(is.finite(.)) %>%
     mean()
 
   calculateXMB(data,
-               groupvar = groupvar,
+               groupvar = c(indexvars),
                XBijk = XBijk,
                XMijk = XMijk,
                ...) %>%

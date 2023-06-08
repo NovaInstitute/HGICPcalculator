@@ -16,7 +16,7 @@ calculateXMB <- function(data,
                          groupvar = "households",
                          XBijk = "XBijk",
                          XMijk = "XMijk"){
-  data %>% group_by(!!sym(groupvar)) %>%
+  data %>% group_by(!!!syms(groupvar)) %>%
     summarise(xBij = mean(XBijk, na.rm = TRUE),
               xMij = mean(XMijk, na.rm = TRUE)) %>%
     summarise(xBi = mean(xBij, na.rm = TRUE),

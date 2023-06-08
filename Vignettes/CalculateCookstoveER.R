@@ -1,12 +1,15 @@
 # Libraries ---------------------------------------------------------------
+rm(list = ls())
 library(Guardener)
-library(CTOWWS)
 library(tidyverse)
 library(HGICPcalculator)
+library(readr)
+library(ipfs)
 
 # Load Demo Monitoring Data  ----------------------------------------------
 load("data/SimulatedSampleResults.Rda")
 load("data/SimulatedMonitoringData.Rda")
+rm(all)
 
 ERstartdate <- as.Date("2023-01-01")
 ERenddate <- as.Date("2023-05-31")
@@ -15,8 +18,8 @@ N = 1000
 
 CBij <- dfresB %>% filter(assignment == "baselineKT") %>% select(kg_p_month_m2)
 CPij <- dfresP %>% filter(assignment == "projectKT")
-eef <- calculatEEF(CBfj = CBij, CPfj = CPij) %>% filter(year == "2023")
-eef_rr <- calculatEEFwithRR(data = projectKT, groupvar = "households") # !!! ons moet hierdie weer deurgaan
+eef <- CTOWWS::calculatEEF(CBfj = CBij, CPfj = CPij) %>% filter(year == "2023")
+# eef <- calculatEEFwithRR(data = projectKT, groupvar = "households") # !!! ons moet hierdie weer deurgaan
 # !!! watter benaderting volg ons vir eef?
 
 # Frequency Approach ------------------------------------------------------
@@ -41,9 +44,15 @@ PE <- calculateE(CPy, var = "CP", outcome = "PE", onlyOutcomeAndGroups = TRUE)
 LE <- calculateE(CLy, var = "LP", outcome = "LE", onlyOutcomeAndGroups = TRUE)
 ER <- calculateER(BE, PE, LE)
 
+ipfs::ipfs_daemon()
+dfIPFS <- ls2ipfs() # add to IPFS
+
 save(ER, BE, PE, LE, CLy, frr, CBy, CPy, CPij_f, eef, CPij, CBij, N, ERstartdate, ERenddate,
      dfCOEF, dffNRB, dfFreqRes, dfresP, dfresB,
      file = "data/SimulationERcalcs.Rda")
+
+save(dfIPFS, file = "data/SimulationERcalcsIPFS.Rda")
+
 
 # Make Guardian Ready -----------------------------------------------------
 ATL <- Glogin(un = "StandardRegistry", pw =  "test")
