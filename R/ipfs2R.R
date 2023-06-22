@@ -44,10 +44,16 @@ R2ipfs<- function(objname){
 #'
 #' @examples ls2ipfs()
 
-ls2ipfs <- function(){
+ls2ipfs <- function(storage = c("IPFS", "WEB3STORAGE")[2]){
   objects <- setdiff(ls(envir = .GlobalEnv), lsf.str(envir = .GlobalEnv))
-  map_df(objects, ~{ tb <- R2ipfs(.); tb$name <- .;tb
-    })
+
+  if (storage == "IPFS") {
+    return(purrr::map_df(objects, ~{ tb <- R2ipfs(.); tb$name <- .; tb}))
+  }
+  if (storage == "WEB3STORAGE") {
+    return( purrr::map_df(objects, ~ dplyr::tibble(name = .,
+                                         key = R2web3S(get(., envir = .GlobalEnv)))) )
+  }
 }
 
 #' ipfsDF
@@ -74,8 +80,5 @@ recoverIPFS <- function(df = dfIPFS){
 
     })
 }
-
-
-
 
 
