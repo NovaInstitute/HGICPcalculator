@@ -1,8 +1,10 @@
 #' ipfs2R
+#' @description
+#' Get data written with R2ipfs() from IPFS and return as an R object
 #'
 #' @param key Character
 #'
-#' @return
+#' @return R object
 #' @export
 #' @example ipfs2R(R2ipfs("mtcars")$hash)
 
@@ -16,7 +18,9 @@ ipfs2R <- function(key){
 }
 
 
-#' Title
+#' R2ipfs
+#' @description
+#' Place an R object on IPFS. Can be read again with ipfs2R
 #'
 #' @param objname
 #' @param outdir
@@ -38,7 +42,7 @@ R2ipfs<- function(objname){
 }
 
 #' ls2ipfs
-#' Add all noin-function objects in the Global Environment to IPFS
+#' Add all non-function objects in the Global Environment to IPFS
 #' @return tibble
 #' @export
 #'
