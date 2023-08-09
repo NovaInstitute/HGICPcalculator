@@ -1,7 +1,9 @@
 
 #' calculatEEFwithRR
 #'
-#' @param data tibble
+#' @param data tibble or character
+#' @param web3 Logical. Use a web3 content address or a tibble (default)
+#' @param indexvars Character. One of c("place", "year", "fuel")
 #' @param groupvar Character. Default "households"
 #' @param XBijk Character. Default "XBijk"
 #' @param XMijk Character. Default "XMijk"
@@ -11,13 +13,24 @@
 #' @export
 #'
 #' @examples
+
+#* calculatEEFwithRR
+#* @param data
+#* @post /calculateEEFwithRR
+#*
+
 calculateEEFwithRR <- function(data,
+                               web3 = FALSE,
                                indexvars = c("place", "year", "fuel"),
                                groupvar = "households",
                                XBijk = "XBijk",
                                XMijk = "XMijk", ...){
   # xBi
   # XBij
+
+  if (web3) {
+    data <- HGICPcalculator::wweb3S2R(data)
+  }
 
   meanrr <- calculateRRj(data, groupvar = c(groupvar, indexvars), ...) %>%
     pull(rr) %>%

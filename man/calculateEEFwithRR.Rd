@@ -6,6 +6,7 @@
 \usage{
 calculateEEFwithRR(
   data,
+  web3 = FALSE,
   indexvars = c("place", "year", "fuel"),
   groupvar = "households",
   XBijk = "XBijk",
@@ -14,7 +15,11 @@ calculateEEFwithRR(
 )
 }
 \arguments{
-\item{data}{tibble}
+\item{data}{tibble or character}
+
+\item{web3}{Logical. Use a web3 content address or a tibble (default)}
+
+\item{indexvars}{Character. One of c("place", "year", "fuel")}
 
 \item{groupvar}{Character. Default "households"}
 

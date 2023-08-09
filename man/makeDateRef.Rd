@@ -4,19 +4,19 @@
 \alias{makeDateRef}
 \title{makeDateRef}
 \usage{
-makeDateRef(
-  ERstartdate = as.Date("2023-01-01"),
-  ERenddate = as.Date("2023-05-31")
-)
+makeDateRef(startdate, enddate)
 }
 \arguments{
-\item{ERstartdate}{Date}
+\item{startdate}{Date}
 
-\item{ERenddate}{Date}
+\item{enddate}{Date}
 }
 \value{
 tibble
 }
 \description{
-makeDateRef
+Create a reference table with every day of a certain period
+}
+\examples{
+makeDateRef(startdate = as.Date("2022-01-01"), enddate = as.Date("2022-12-31"))
 }

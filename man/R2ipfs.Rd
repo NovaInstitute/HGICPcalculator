@@ -2,7 +2,7 @@
 % Please edit documentation in R/ipfs2R.R
 \name{R2ipfs}
 \alias{R2ipfs}
-\title{Title}
+\title{R2ipfs}
 \usage{
 R2ipfs(objname)
 }
@@ -10,7 +10,7 @@ R2ipfs(objname)
 \item{outdir}{}
 }
 \description{
-Title
+Place an R object on IPFS. Can be read again with ipfs2R
 }
 \examples{
 R2ipfs("mtcars")

@@ -3,16 +3,16 @@
 \name{ls2ipfs}
 \alias{ls2ipfs}
 \title{ls2ipfs
-Add all noin-function objects in the Global Environment to IPFS}
+Add all non-function objects in the Global Environment to IPFS}
 \usage{
-ls2ipfs()
+ls2ipfs(storage = c("IPFS", "WEB3STORAGE")[2])
 }
 \value{
 tibble
 }
 \description{
 ls2ipfs
-Add all noin-function objects in the Global Environment to IPFS
+Add all non-function objects in the Global Environment to IPFS
 }
 \examples{
 ls2ipfs()

@@ -9,6 +9,9 @@ ipfs2R(key)
 \arguments{
 \item{key}{Character}
 }
+\value{
+R object
+}
 \description{
-ipfs2R
+Get data written with R2ipfs() from IPFS and return as an R object
 }
