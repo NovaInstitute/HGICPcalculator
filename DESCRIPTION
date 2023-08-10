@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Christiaan J. Pauw, Jeanette Pauw
 Maintainer: Christiaan J. Pauw <cjpauw@gmail.com>
 Description: Do calculations for Hedera Guardia Improved Cookstove Methodology 
-License: Creative Commons Attribution-NonCommercial 3.0 Unported
+License: Nova Institute. Creative Commons Attribution-NonCommercial 3.0 
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
