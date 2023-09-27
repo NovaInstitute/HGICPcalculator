@@ -14,8 +14,11 @@ R2web3S(x, AT = Sys.getenv("IPFS_STORAGE_API_KEY"), fnmW = NULL)
 \item{fnmW}{A file. if NULL (the default), a tempfile is created}
 }
 \value{
-Character. The IPFS URI where the result is writen
+Character. The IPFS URI where the result is written
 }
 \description{
 R2web3S
+}
+\examples{
+R2web3S(iris)
 }

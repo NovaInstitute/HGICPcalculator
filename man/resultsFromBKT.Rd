@@ -2,7 +2,7 @@
 % Please edit documentation in R/resultsFromBKT.R
 \name{resultsFromBKT}
 \alias{resultsFromBKT}
-\title{Title}
+\title{resultsFromBKT}
 \usage{
 resultsFromBKT(
   baselineKT = NULL,
@@ -13,7 +13,8 @@ resultsFromBKT(
   frBijk = "frBijk",
   fuelval = "wood",
   assval = "baselineKT",
-  format = NULL
+  format = NULL,
+  web3 = FALSE
 )
 }
 \arguments{
@@ -35,13 +36,15 @@ resultsFromBKT(
 
 \item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
 
+\item{web3}{Logical. Return web3storage address or not}
+
 \item{household_qr_code}{Character}
 }
 \value{
 tibble
 }
 \description{
-Title
+resultsFromBKT
 }
 \examples{
 x <- "https://bafkreib7u7afwxo4gwyn46nlpuxuh7zzacqcgsy5p6nop75xskmrqlnbpe.ipfs.w3s.link/"

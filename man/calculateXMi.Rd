@@ -4,7 +4,13 @@
 \alias{calculateXMi}
 \title{calculateXMi}
 \usage{
-calculateXMi(data, XMijk = "XMijk", groupvar = "households")
+calculateXMi(
+  data,
+  XMijk = "XMijk",
+  groupvar = "households",
+  format = NULL,
+  web3 = FALSE
+)
 }
 \arguments{
 \item{data}{tibble}
@@ -12,6 +18,10 @@ calculateXMi(data, XMijk = "XMijk", groupvar = "households")
 \item{XMijk}{Character. Variable with daily wood use per household. Default "XMijk"}
 
 \item{groupvar}{Character. Grouping variable. Default "households"}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 }
 \value{
 data.frame

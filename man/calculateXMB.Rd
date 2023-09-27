@@ -4,7 +4,14 @@
 \alias{calculateXMB}
 \title{calculateXMB}
 \usage{
-calculateXMB(data, groupvar = "households", XBijk = "XBijk", XMijk = "XMijk")
+calculateXMB(
+  data,
+  groupvar = "households",
+  XBijk = "XBijk",
+  XMijk = "XMijk",
+  format = NULL,
+  web3 = FALSE
+)
 }
 \arguments{
 \item{groupvar}{Character. Grouping variable. Default: "households"}
@@ -12,6 +19,10 @@ calculateXMB(data, groupvar = "households", XBijk = "XBijk", XMijk = "XMijk")
 \item{XBijk}{Character. Default: "XBijk"}
 
 \item{XMijk}{Character. Default: "XMijk"}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 }
 \value{
 tibble with one row and two columns namely "xBi" and "xMi"

@@ -1,5 +1,4 @@
 
-
 #' calculateLPy
 #' @param CPy tibble with summarise results of Project Kitchen test per household
 #' @param CMsummary tibble with a summary of the Continued Monitoring data per household ¡¡¡
@@ -16,9 +15,11 @@
 #' @param frMij Character.
 #' @param XBPijk Character.
 #' @param XBPi Character.
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
+#'
 #' @return tibble
 #' @export
-
 
 calculateLPy <- function (CPy = NULL,
                           CMsummary = CPfj_f,
@@ -33,7 +34,9 @@ calculateLPy <- function (CPy = NULL,
                           frMijk = "frMijk",
                           frMij = "frMij",
                           XBPijk = "XBPijk",
-                          XBPi = "XBPi"
+                          XBPi = "XBPi",
+                          format = NULL,
+                          web3 = FALSE
 )
 {
 
@@ -68,7 +71,9 @@ calculateLPy <- function (CPy = NULL,
     left_join(frr) %>%
     mutate(N = N,
            XBPi = units::set_units(XBPi, "tonne"),
-           LP = as.numeric(meandays) * N * frrbar * frMbar * XBPi)
+           LP = as.numeric(meandays) * N * frrbar * frMbar * XBPi) %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 
 
 }

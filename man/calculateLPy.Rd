@@ -18,7 +18,9 @@ calculateLPy(
   frMijk = "frMijk",
   frMij = "frMij",
   XBPijk = "XBPijk",
-  XBPi = "XBPi"
+  XBPi = "XBPi",
+  format = NULL,
+  web3 = FALSE
 )
 }
 \arguments{
@@ -50,6 +52,10 @@ calculateLPy(
 \item{XBPijk}{Character.}
 
 \item{XBPi}{Character.}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 }
 \value{
 tibble

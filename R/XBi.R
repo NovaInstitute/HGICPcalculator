@@ -1,5 +1,4 @@
 
-
 #' calculateXBi
 #' @description
 #' Function to calculate baseline wood consumption from the baseline technologies per household
@@ -7,17 +6,26 @@
 #' @param data tibble
 #' @param XBijk Character. Variable with wood use from baseline technologies per day. Default "XBijk"
 #' @param groupvar Character. Grouping variable. Default "households"
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #'
 #' @return data.frame
 #' @export
 
+#* @post /calculateXBi
+#* @get /calculateXBi
+#* @serializer switch
 
-calculateXBi <- function(data , XBijk = "XBijk", groupvar = "households"){
+calculateXBi <- function(data , XBijk = "XBijk", groupvar = "households",
+                         format = NULL,
+                         web3 = FALSE){
   data %>%
     group_by(!!sym(groupvar)) %>%
     summarise(XBi = mean(!!sym(XBijk), na.rm = TRUE)) %>%
     summarise(estimate = mean(XBi)) %>%
-    as.data.frame()
+    as.data.frame() %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }
 
 #' simulateXBi

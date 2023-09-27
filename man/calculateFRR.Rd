@@ -8,11 +8,17 @@ calculateFRR(
   df = NULL,
   frBPij = "frBPij",
   frMij = "frMij",
-  group_vars = c("place", "year", "fuel")
+  group_vars = c("place", "year", "fuel"),
+  format = NULL,
+  web3 = FALSE
 )
 }
 \arguments{
 \item{df}{data.frame}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 
 \item{frPij}{Character}
 

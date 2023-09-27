@@ -7,6 +7,8 @@
 #' @param groupvar Character. Default "households"
 #' @param XBijk Character. Default "XBijk"
 #' @param XMijk Character. Default "XMijk"
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #' @param ...
 #'
 #' @return
@@ -16,20 +18,23 @@
 
 #* calculatEEFwithRR
 #* @param data
+#* @get /calculateEEFwithRR
 #* @post /calculateEEFwithRR
 #*
 
 calculateEEFwithRR <- function(data,
-                               web3 = FALSE,
                                indexvars = c("place", "year", "fuel"),
                                groupvar = "households",
                                XBijk = "XBijk",
-                               XMijk = "XMijk", ...){
+                               XMijk = "XMijk",
+                               format = NULL,
+                               web3 = FALSE,
+                               ...){
   # xBi
   # XBij
-
-  if (web3) {
-    data <- HGICPcalculator::wweb3S2R(data)
+  if (is.character(data))  {
+    data <- HGICPcalculator::web3S2R(data)
+    if (!is.data.frame(data)) {stop("\nI was expecting data to be the web3storrage address of a dataframe\n")}
   }
 
   meanrr <- calculateRRj(data, groupvar = c(groupvar, indexvars), ...) %>%
@@ -43,7 +48,9 @@ calculateEEFwithRR <- function(data,
                XMijk = XMijk,
                ...) %>%
     mutate(rrbar =  meanrr,
-           eef = (xBi * rrbar) / xMi )
+           eef = (xBi * rrbar) / xMi )  %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }
 
 simulateEEFwithRR <- function(data, ...){

@@ -4,7 +4,13 @@
 \alias{calculateXBi}
 \title{calculateXBi}
 \usage{
-calculateXBi(data, XBijk = "XBijk", groupvar = "households")
+calculateXBi(
+  data,
+  XBijk = "XBijk",
+  groupvar = "households",
+  format = NULL,
+  web3 = FALSE
+)
 }
 \arguments{
 \item{data}{tibble}
@@ -12,6 +18,10 @@ calculateXBi(data, XBijk = "XBijk", groupvar = "households")
 \item{XBijk}{Character. Variable with wood use from baseline technologies per day. Default "XBijk"}
 
 \item{groupvar}{Character. Grouping variable. Default "households"}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 }
 \value{
 data.frame

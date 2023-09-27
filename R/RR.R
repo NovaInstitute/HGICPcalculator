@@ -9,22 +9,32 @@
 #' @param frMijk
 #' @param frBijk
 #' @param frPijk
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #'
 #' @return tibble with five column: <groupvar> meanfrBij meanfrMij meanfrPij    rr
 #' @export
+
+#* @post /calculateRRj
+#* @get /calculateRRj
+#* @serializer switch
 
 calculateRRj <- function(data,
                         groupvar = "households",
                         frMijk = "frMijk",
                         frBijk = "frBijk",
-                        frPijk = "frPijk"){
+                        frPijk = "frPijk",
+                        format = NULL,
+                        web3 = FALSE){
 
   data %>% group_by(!!!syms(groupvar)) %>%
     summarise(frBij = mean(frBijk, na.rm = TRUE),
               frMij = mean(frMijk, na.rm = TRUE),
               frPij = mean(frPijk, na.rm = TRUE),
               rr = (frBij - (frPij - frMij)) / frMij
-    )
+    )  %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }
 
 

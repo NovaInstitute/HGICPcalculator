@@ -1,4 +1,3 @@
-
 #' calculateCPy
 #'
 #' @param CPy tibble
@@ -8,11 +7,17 @@
 #' @param frMijk
 #' @param XMijk
 #' @param approach Character. One of "frequency" or "weighing". Default: "frequency"
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #'
 #' @return tibble
 #' @export
 #'
 #' @examples
+
+#* @post /calculateCPy
+#* @get  /calculateCPy
+#* @serializer switch
 
 calculateCPy <- function (CPy = NULL,
                           dfFreq = NULL,
@@ -26,10 +31,12 @@ calculateCPy <- function (CPy = NULL,
                           frMijk = "frMijk",
                           frMij = "frMij",
                           XMijk = "XMijk",
-                          XMi = "XMi"
+                          XMi = "XMi",
+                          format = NULL,
+                          web3 = FALSE
                           )
 {
-
+  CPy <- web3Sub(CPy)
   if (is.null(CPy)) stop("CPy cannot me NULL")
   if (approach == "frequency"){
     if (is.null(dfFreq)) stop("dfFreq cannot me NULL")
@@ -44,7 +51,10 @@ calculateCPy <- function (CPy = NULL,
     return(CPy %>%
              group_by(!!!syms(indexvars), assignment) %>%
              mutate(CP = !!sym(frMijk) * !!sym(XMijk)) %>%
-             summarise(CP = sum(CP, na.rm = TRUE)))
+             summarise(CP = sum(CP, na.rm = TRUE)) %>%
+             switchify(format = format) %>%
+             web3lify(web3 = web3)
+           )
   }
 
   if (approach == "frequency"){
@@ -69,7 +79,9 @@ calculateCPy <- function (CPy = NULL,
       mutate(N = N,
              CP = as.numeric(mean_days) * N * CPi * frMi,
              CP = units::as_units(CP, "kg"),
-             CP = units::set_units(CP, "tonne"))
+             CP = units::set_units(CP, "tonne")) %>%
+      switchify(format = format) %>%
+      web3lify(web3 = web3)
   }
 
 }
@@ -83,11 +95,16 @@ calculateCPy <- function (CPy = NULL,
 #' @param frBPijk
 #' @param groupvar
 #' @param N
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #'
 #' @return
 #' @export
 #'
-#'
+
+#* @post /calculateCP
+#* @get /calculateCP
+#* @serializer switch
 
 calculateCP <- function(data ,
                        XPijk = "XPijk",
@@ -95,7 +112,10 @@ calculateCP <- function(data ,
                        frMijk = "frMijk",
                        frBPijk = "frBPijk",
                        groupvar = "households",
-                       N = NULL, ...){
+                       N = NULL,
+                       format = NULL,
+                       web3 = FALSE,
+                       ...){
 
   if (is.null(N)) stop("please provice N")
 
@@ -105,10 +125,12 @@ calculateCP <- function(data ,
 
   XMi <- calculateXMi(data, KPTValue = KPTValue, groupvar = groupvar, ...) %>% pull()  %>% units::as_units("kg")
 
-  data.frame(estimate = N * XMi)
+  data.frame(estimate = N * XMi) %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }
 
-#' Title
+#' simulateCP
 #'
 #' @param data
 #' @param XPijk
@@ -117,11 +139,17 @@ calculateCP <- function(data ,
 #' @param frBPijk
 #' @param groupvar
 #' @param N
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #'
 #' @return
 #' @export
 #'
 #' @examples
+
+#* @post /simulateCP
+#* @get /simulateCP
+#* @serializer switch
 
 simulateCP <- function(data ,
                        XPijk = "XPijk",
@@ -129,7 +157,10 @@ simulateCP <- function(data ,
                        frMijk = "frMijk",
                        frBPijk = "frBPijk",
                        groupvar = "households",
-                       N = NDP,... ){
+                       N = NDP,
+                       format = NULL,
+                       web3 = FALSE,
+                       ... ){
 
   if (is.null(N)) N = nrow(data)
 
@@ -139,5 +170,7 @@ simulateCP <- function(data ,
 
   XMi <- simulateXMi(data, selection_statement = "Z_cm == 1 &  Z_cmw == 1" ) %>% pull()  %>% units::as_units("kg")
 
-  data.frame(estimate = N * XMi)
+  data.frame(estimate = N * XMi)  %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }

@@ -7,20 +7,31 @@
 #' @param groupvar Character. Grouping variable. Default: "households"
 #' @param XBijk Character. Default: "XBijk"
 #' @param XMijk Character. Default: "XMijk"
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #'
 #' @return tibble with one row and two columns namely "xBi" and "xMi"
 #' @export
 #'
 #' @examples
+
+#* @post /calculateXMB
+#* @get /calculateXMB
+#* @serializer switch
+
 calculateXMB <- function(data,
                          groupvar = "households",
                          XBijk = "XBijk",
-                         XMijk = "XMijk"){
+                         XMijk = "XMijk",
+                         format = NULL,
+                         web3 = FALSE){
   data %>% group_by(!!!syms(groupvar)) %>%
     summarise(xBij = mean(XBijk, na.rm = TRUE),
               xMij = mean(XMijk, na.rm = TRUE)) %>%
     summarise(xBi = mean(xBij, na.rm = TRUE),
-              xMi = mean(xMij, na.rm = TRUE))
+              xMi = mean(xMij, na.rm = TRUE)) %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }
 
 #' simulateXMB

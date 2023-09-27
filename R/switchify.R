@@ -13,9 +13,13 @@
 #' result %>% switchify()
 
 switchify <- function(out, format = NULL){
+
+  #  check if switch is registers, else do it
+  if (!"switch" %in% plumber::registered_serializers()) plumber::register_serializer("switch", HGICPcalculator::serializer_switch)
+
   if (is.null(format)) format <- "json"
   if (format != "rds") out <- out %>% units::drop_units()
-  if (format %in% c("html", "htmlTable")) out <- out %>% mutate(across(where(~is.numeric(.)), ~round(., 2)))
+  if (format %in% c("html", "htmlTable")) out <- out %>% dplyr::mutate(dplyr::across(dplyr::where(~is.numeric(.)), ~round(., 2)))
   attr(out, "serialize_format") <- format
   out
 }

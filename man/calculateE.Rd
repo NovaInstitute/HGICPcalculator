@@ -10,13 +10,19 @@ calculateE(
   fNRB = dffNRB,
   var = "CB",
   outcome = "BE",
-  onlyOutcomeAndGroups = TRUE
+  onlyOutcomeAndGroups = TRUE,
+  format = NULL,
+  web3 = FALSE
 )
 }
 \arguments{
 \item{COEF}{Numeric. CO2 emission factor in g/kg.  Default value 1560}
 
 \item{fNRB}{numeric. Default value 0.3}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 
 \item{CBy}{Numeric. Result of calculateCBy()}
 }

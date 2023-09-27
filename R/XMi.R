@@ -6,16 +6,26 @@
 #' @param data tibble
 #' @param XMijk Character. Variable with daily wood use per household. Default "XMijk"
 #' @param groupvar Character. Grouping variable. Default "households"
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #'
 #' @return data.frame
 #' @export
 
-calculateXMi <- function(data , XMijk = "XMijk", groupvar = "households"){
+#* @post /calculateXMi
+#* @get /calculateXMi
+#* @serializer switch
+
+calculateXMi <- function(data , XMijk = "XMijk", groupvar = "households",
+                         format = NULL,
+                         web3 = FALSE){
   data %>%
     group_by(!!sym(groupvar)) %>%
     summarise(XMi = mean(!!sym(XMijk), na.rm = TRUE)) %>%
     summarise(estimate = mean(XMi)) %>%
-    as.data.frame()
+    as.data.frame() %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }
 
 #' simulateXMi

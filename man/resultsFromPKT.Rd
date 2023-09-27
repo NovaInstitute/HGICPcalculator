@@ -20,7 +20,8 @@ resultsFromPKT(
   assignment = "assignment",
   assignmentval = "projectKT",
   household_qr_code = "household_qr_code",
-  format = NULL
+  format = NULL,
+  web3 = FALSE
 )
 }
 \arguments{
@@ -55,6 +56,8 @@ resultsFromPKT(
 \item{household_qr_code}{Character. Name to use for the ID column. Default household_qr_code}
 
 \item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Logical. Return web3storage address or not}
 }
 \description{
 Title

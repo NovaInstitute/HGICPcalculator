@@ -1,5 +1,5 @@
 
-#' Title
+#' resultsFromBKT
 #'
 #' @param baselineKT tibble or character. If character assumes it is a web3storage address of a tibble
 #' @param place Character
@@ -11,7 +11,7 @@
 #' @param assval Character
 #' @param household_qr_code Character
 #' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
-#'
+#' @param web3 Logical. Return web3storage address or not
 #' @return tibble
 #' @export
 #'
@@ -19,6 +19,7 @@
 #' x <- "https://bafkreib7u7afwxo4gwyn46nlpuxuh7zzacqcgsy5p6nop75xskmrqlnbpe.ipfs.w3s.link/"
 #' resultsFromBKT(x, format = "htmlTable")
 
+#* @post /resultsFromBKT
 #* @get /resultsFromBKT
 #* @serializer switch
 
@@ -30,7 +31,8 @@ resultsFromBKT <- function(baselineKT = NULL,
                            frBijk = "frBijk",
                            fuelval = "wood",
                            assval = "baselineKT",
-                           format = NULL
+                           format = NULL,
+                           web3 = FALSE
                     ){
   if (is.character(baselineKT))  {
     baselineKT <- HGICPcalculator::web3S2R(baselineKT)
@@ -48,8 +50,8 @@ resultsFromBKT <- function(baselineKT = NULL,
       XBij = mean(!!sym(XBijk)),
       frBij = mean(!!sym(frBijk), na.rm = TRUE)) %>%
     group_by(!!!syms(place), !!sym(year), !!sym(fuel), !!sym(assignment), household_qr_code) %>%
-    mutate(kg_p_month_m2 = units::as_units(XBij * 364.25/12, "kg"))%>%
-    switchify(format = format)
+    mutate(kg_p_month_m2 = units::as_units(XBij * 364.25/12, "kg")) %>%
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }
-
 

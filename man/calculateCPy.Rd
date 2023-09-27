@@ -17,13 +17,19 @@ calculateCPy(
   frMijk = "frMijk",
   frMij = "frMij",
   XMijk = "XMijk",
-  XMi = "XMi"
+  XMi = "XMi",
+  format = NULL,
+  web3 = FALSE
 )
 }
 \arguments{
 \item{CPy}{tibble}
 
 \item{approach}{Character. One of "frequency" or "weighing". Default: "frequency"}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 }
 \value{
 tibble

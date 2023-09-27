@@ -12,6 +12,8 @@
 #' @param frPijk Character. . Default "frPijk"
 #' @param groupvar Character. Grouping variable. Default "households"
 #' @param KPTValue Numeric or NULL. If NULL it is calculated from the same dataset
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #' @param ... Arguments passed to simulateXBi
 #'
 #' @return data.frame
@@ -24,6 +26,8 @@ calculateXl <- function(data,
                         frPijk = "frPijk",
                         groupvar = "households",
                         KPTValue = NULL,
+                        format = NULL,
+                        web3 = FALSE,
                         ...){
 
 if (is.null(KPTValue)){ KPTValue <-  simulateXBi(data, ...) %>% pull() }
@@ -39,8 +43,9 @@ data %>%
   ) %>%
   ungroup() %>%
   summarise(estimate = mean(XLij, na.rm = TRUE)) %>%
-  as.data.frame()
-
+  as.data.frame()  %>%
+  switchify(format = format) %>%
+  web3lify(web3 = web3)
 }
 
 #' simulateXl

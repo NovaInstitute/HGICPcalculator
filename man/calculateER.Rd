@@ -4,7 +4,7 @@
 \alias{calculateER}
 \title{calculateER}
 \usage{
-calculateER(BE, PE, LE)
+calculateER(BE, PE, LE, format = NULL, web3 = FALSE)
 }
 \arguments{
 \item{BE}{tibble from calculateE(  ..., outcome = "BE")}
@@ -13,7 +13,9 @@ calculateER(BE, PE, LE)
 
 \item{LE}{tibble from calculateE(  ..., outcome = "LE")}
 
-\item{onlyOutcomeAndGroups}{Logical}
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 }
 \value{
 data.frame

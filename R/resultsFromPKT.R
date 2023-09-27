@@ -16,6 +16,7 @@
 #' @param assignmentval Character. Value to set fuel to. Default "projectKT"
 #' @param household_qr_code Character. Name to use for the ID column. Default household_qr_code
 #' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Logical. Return web3storage address or not
 #'
 #' @return
 #' @export
@@ -43,7 +44,8 @@ resultsFromPKT <- function(projectKT,
                            assignment = "assignment",
                            assignmentval = "projectKT",
                            household_qr_code = "household_qr_code",
-                           format = NULL) {
+                           format = NULL,
+                           web3 = FALSE) {
 
   if (is.character(projectKT))  {
     projectKT <- HGICPcalculator::web3S2R(projectKT)
@@ -64,6 +66,7 @@ resultsFromPKT <- function(projectKT,
       XBPijk = mean(!!sym(XBPijk), na.rm = TRUE)) %>%
     group_by(place, year, fuel, assignment, household_qr_code) %>%
     mutate(kg_p_month_m2 = units::as_units(XMij * 364.25/12, "kg")) %>%
-    switchify(format = format)
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 
 }

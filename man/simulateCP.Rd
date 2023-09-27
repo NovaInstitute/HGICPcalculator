@@ -2,7 +2,7 @@
 % Please edit documentation in R/CP.R
 \name{simulateCP}
 \alias{simulateCP}
-\title{Title}
+\title{simulateCP}
 \usage{
 simulateCP(
   data,
@@ -12,12 +12,16 @@ simulateCP(
   frBPijk = "frBPijk",
   groupvar = "households",
   N = NDP,
+  format = NULL,
+  web3 = FALSE,
   ...
 )
 }
 \arguments{
-\item{N}{}
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 }
 \description{
-Title
+simulateCP
 }

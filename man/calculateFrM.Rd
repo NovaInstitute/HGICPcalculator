@@ -4,7 +4,13 @@
 \alias{calculateFrM}
 \title{calculateFrM}
 \usage{
-calculateFrM(data, frMijk = "frMijk", groupvar = "households")
+calculateFrM(
+  data,
+  frMijk = "frMijk",
+  groupvar = "households",
+  format = NULL,
+  web3 = FALSE
+)
 }
 \arguments{
 \item{data}{tibble}
@@ -13,6 +19,10 @@ calculateFrM(data, frMijk = "frMijk", groupvar = "households")
 by household group, household and day. Default "frMijk"}
 
 \item{groupvar}{Character. Variable for grouping. Default "households"}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 }
 \value{
 data.frame

@@ -12,6 +12,8 @@ calculateXl(
   frPijk = "frPijk",
   groupvar = "households",
   KPTValue = NULL,
+  format = NULL,
+  web3 = FALSE,
   ...
 )
 }
@@ -29,6 +31,10 @@ calculateXl(
 \item{groupvar}{Character. Grouping variable. Default "households"}
 
 \item{KPTValue}{Numeric or NULL. If NULL it is calculated from the same dataset}
+
+\item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
+
+\item{web3}{Logical. Return web3storage address or not}
 
 \item{...}{Arguments passed to simulateXBi}
 }

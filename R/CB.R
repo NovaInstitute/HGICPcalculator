@@ -1,21 +1,27 @@
-
-
 #' calculateCBy
 #'
 #' @param eef tibble
 #' @param CPy tibble
 #' @param approach Character. One of "frequency" or "weighing". Default: "frequency"
+#' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
+#' @param web3 Logical. Return web3storage address or not
 #' @return tibble
 #' @export
 #'
 #' @examples
+
+#* @post /calculateCBy
+#* @get /calculateCBy
+#* @serializer switch
 
 calculateCBy <- function (eef,
                           CPy,
                           approach =  c("frequency", "weighing")[1],
                           N = NULL,
                           enddate = "date_end_monitoring_period",
-                          startdate = "date_start_monitoring_period")
+                          startdate = "date_start_monitoring_period",
+                          format = NULL,
+                          web3 = FALSE)
 {
   if (!(is_tibble(CPy) & is_tibble(eef)))
     stop("Both CPy and eef must be tibbles")
@@ -50,7 +56,9 @@ calculateCBy <- function (eef,
         CB = CBbar * N * as.numeric(mean_days) ,
         CB = units::as_units(CB, "kg"),
         CB = units::set_units(CB, "tonne")
-        )
+        ) %>%
+      switchify(format = format) %>%
+      web3lify(web3 = web3)
   }
 
 }

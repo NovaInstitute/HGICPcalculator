@@ -31,7 +31,8 @@ summariseConMon <- function(dfFreqRes_prep = NULL,
                             year = "year",
                             fuel = "fuel",
                             assignment = "assignment",
-                            format = NULL) {
+                            format = NULL,
+                            web3 = FALSE) {
 
   if (is.character(dfFreqRes_prep))  {
     dfFreqRes_prep <- HGICPcalculator::web3S2R(dfFreqRes_prep)
@@ -48,5 +49,6 @@ summariseConMon <- function(dfFreqRes_prep = NULL,
     select(!!place, !!year, !!fuel, !!assignment, !!household_qr_code,
            ndays, total_frMij, frMij,
            date_start_monitoring_period, date_end_monitoring_period) %>%
-    switchify(format = format)
+    switchify(format = format) %>%
+    web3lify(web3 = web3)
 }

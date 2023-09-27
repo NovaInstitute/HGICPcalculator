@@ -4,12 +4,16 @@
 \alias{makeDateRef}
 \title{makeDateRef}
 \usage{
-makeDateRef(startdate, enddate)
+makeDateRef(startdate, enddate, format = NULL, web3 = FALSE)
 }
 \arguments{
 \item{startdate}{Date}
 
 \item{enddate}{Date}
+
+\item{format}{Character. Output format for API}
+
+\item{web3}{Return a web3storage address or not. Default FALSE}
 }
 \value{
 tibble

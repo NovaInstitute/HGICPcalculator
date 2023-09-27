@@ -24,10 +24,11 @@ web3S2R <- function(ipfsURI, fnmR = NULL){
 #' @param AT Character. The 255 character IPFS storage key. By default it Gets"IPFS_STORAGE_API_KEY" from Sytem Environment
 #' @param fnmW A file. if NULL (the default), a tempfile is created
 #'
-#' @return Character. The IPFS URI where the result is writen
+#' @return Character. The IPFS URI where the result is written
 #' @export
 #'
 #' @examples
+#' R2web3S(iris)
 
 R2web3S <- function(x,
                     AT = Sys.getenv("IPFS_STORAGE_API_KEY"),
