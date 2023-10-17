@@ -29,8 +29,10 @@ resultsFromBKT <- function(baselineKT = NULL,
                            households = "households",
                            XBijk = "XBijk",
                            frBijk = "frBijk",
+                           fuel = "fuel",
                            fuelval = "wood",
-                           assval = "baselineKT",
+                           assignment = "assignment",
+                           assignmentval = "baselineKT",
                            format = NULL,
                            web3 = FALSE
                     ){
@@ -41,15 +43,19 @@ resultsFromBKT <- function(baselineKT = NULL,
 
   out <- baselineKT %>%
     select(!!place, !!year, !!households, !!XBijk, !!frBijk) %>%
-    mutate(fuel = fuelval,
-           assignment = assval) %>%
-    rename("household_qr_code" = !!households) %>%
+    # mutate(fuel = fuelval,
+    #        assignment = assval) %>%
+    # rename("household_qr_code" = !!households) %>%
+    mutate(!!sym(fuel) := fuelval,
+           !!sym(assignment) := assignmentval) %>%
+    rename(!!household_qr_code := !!households) %>%
     group_by(place, year, fuel, assignment, household_qr_code) %>%
     mutate(XBij = units::as_units(!!sym(XBijk) / !!sym(frBijk), "kg")) %>%
     summarise(
-      XBij = mean(!!sym(XBijk)),
+      XBij = mean(!!sym(XBijk), na.rm = TRUE),
       frBij = mean(!!sym(frBijk), na.rm = TRUE)) %>%
-    group_by(!!!syms(place), !!sym(year), !!sym(fuel), !!sym(assignment), household_qr_code) %>%
+    group_by(place, year, fuel, assignment, household_qr_code) %>%
+    #group_by(!!!syms(place), !!sym(year), !!sym(fuel), !!sym(assignment), household_qr_code) %>%
     mutate(kg_p_month_m2 = units::as_units(XBij * 364.25/12, "kg")) %>%
     switchify(format = format) %>%
     web3lify(web3 = web3)
