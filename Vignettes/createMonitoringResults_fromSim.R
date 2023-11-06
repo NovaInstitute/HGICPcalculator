@@ -5,6 +5,7 @@ library(units)
 library(openxlsx)
 
 load("data/SimulatedSampleResults.Rda")
+#load("Vignettes/SimulatedSampleResults.Rda")
 ERstartdate <- as.Date("2023-01-01")
 ERenddate <- as.Date("2023-05-31")
 
