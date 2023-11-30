@@ -24,6 +24,7 @@ library(knitr)
 library(tidyverse)
 library(kableExtra)
 library(units)
+library(novaReport)
 ```
 
 ```{=tex}
@@ -78,7 +79,6 @@ Report calculations transparently so that all processing steps, including interm
 
 ## Notation
 
-
 $fr_{(B)ijk}$: fire frequency for household *j* in subpopulation *i* on day *k* in the baseline scenario of the KT phase.
 
 $fr_{(P)ijk}$: fire frequency for household *j* in subpopulation *i* on day *k* in the project scenario of the KT phase.
@@ -100,6 +100,17 @@ $n_{(P)ij}$: total number of days that household *j* in subpopulation *i* was ob
 $n^*_{ij}$: total number of days that household *j* in subpopulation *i* was observed in the post KT phase.
 
 $n_{i}$: total number of subpopulations in the project.
+
+
+## Data and variables used in this report
+
+```{r}
+dataURLS <- jellyfi3shR::ls2ipfs(Env = rlang::current_env())
+kable(dataURLS, booktabs = TRUE, 
+      caption = "CIDs if data used in this report")  %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position" ))
+```
+
 
 ## Calculation of ${ER_y}$
 
@@ -201,7 +212,7 @@ kable(CPij %>% head() %>% select(-kg_p_month_m2),
 A summary of the values in CPij for each household is shown below.
 
 ```{r out.width='100%'}
-plotCPij(CPij)
+HGICPcalculator::plotCPij(CPij)
 ```
 
 
@@ -242,7 +253,9 @@ kable(dfFreqRes %>% ungroup() %>% select(-assignment) %>% set_names(gsub("househ
 ```
 
 ```{r}
-kable()
+kable(novaReport::tenpointgroup(df = dfFreqRes, variables = "frMij", group = c("place",	"year",	"fuel")), 
+      digits = 1, booktabs = TRUE, caption = "Summary of daily frequency of use of project measures per household") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
 ```
 
 

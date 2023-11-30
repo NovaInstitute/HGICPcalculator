@@ -11,8 +11,10 @@ resultsFromBKT(
   households = "households",
   XBijk = "XBijk",
   frBijk = "frBijk",
+  fuel = "fuel",
   fuelval = "wood",
-  assval = "baselineKT",
+  assignment = "assignment",
+  assignmentval = "baselineKT",
   format = NULL,
   web3 = FALSE
 )
@@ -32,11 +34,11 @@ resultsFromBKT(
 
 \item{fuelval}{Character}
 
-\item{assval}{Character}
-
 \item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
 
 \item{web3}{Logical. Return web3storage address or not}
+
+\item{assval}{Character}
 
 \item{household_qr_code}{Character}
 }
