@@ -7,8 +7,6 @@
 #' @param web3 Logical. Return web3storage address or not
 #' @return tibble
 #' @export
-#'
-#' @examples
 
 #* @post /calculateCBy
 #* @get /calculateCBy
@@ -63,21 +61,20 @@ calculateCBy <- function (eef,
 
 }
 
-#' Title
+#' simulateCB
 #'
-#' @param data
-#' @param XPijk
-#' @param XBijk
-#' @param frMijk
-#' @param frBPijk
-#' @param frBijk
-#' @param frPijk
-#' @param groupvar
-#' @param stratvar
-#' @param NDPi
-#' @param ...
+#' @param data tibble
+#' @param XPijk Character. Default "XPijk"
+#' @param XBijk Character. Default "XBijk"
+#' @param frMijk Character. Default  "frMijk"
+#' @param frBPijk Character. Default "frBPijk"
+#' @param frBijk Character. Default "frBijk"
+#' @param frPijk Character. Default "frPijk"
+#' @param groupvar Character. Default "groupvar"
+#' @param stratvar Character. Default "stratvar"
+#' @param ... passed to simulateCP
 #'
-#' @return
+#' @return tibble
 #' @export
 #'
 #' @examples
@@ -90,7 +87,6 @@ simulateCB <- function(data , XPijk = "XPijk",
                        frPijk = "frPijk",
                        groupvar = "households",
                        stratvar = "Z",
-                       NDPi = NULL,
                        ...){
   CP <- simulateCP(data = data, ...)
   eef <- simulateEEFwithRR(data) %>% pull(eef)

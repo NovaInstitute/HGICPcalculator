@@ -35,6 +35,9 @@ plotCPij(
 
 \item{freqvars}{Character. Name of variable measured in frequency per day}
 }
+\value{
+plotly
+}
 \description{
 plotCPij
 }

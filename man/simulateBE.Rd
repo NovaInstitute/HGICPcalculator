@@ -4,7 +4,7 @@
 \alias{simulateBE}
 \title{simulateBE}
 \usage{
-simulateBE(data, ...)
+simulateBE(data)
 }
 \arguments{
 \item{data}{tibble}

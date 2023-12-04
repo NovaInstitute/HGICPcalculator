@@ -25,7 +25,29 @@ calculateCPy(
 \arguments{
 \item{CPy}{tibble}
 
+\item{dfFreq}{tibble}
+
+\item{datevars}{Character.}
+
+\item{groupvar}{Character.}
+
 \item{approach}{Character. One of "frequency" or "weighing". Default: "frequency"}
+
+\item{indexvars}{Character.}
+
+\item{N}{Numeric}
+
+\item{enddate}{Date}
+
+\item{startdate}{Date}
+
+\item{frMijk}{Character.}
+
+\item{frMij}{Character.}
+
+\item{XMijk}{Character.}
+
+\item{XMi}{Character.}
 
 \item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
 

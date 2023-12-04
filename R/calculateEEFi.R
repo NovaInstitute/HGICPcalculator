@@ -25,7 +25,7 @@ calculateEEFfromRR <- function(data,
                                indexvars = c("place", "year", "fuel"),
                                XBij = "XBij_m2",
                                XMij = "XMij_m2",
-                               frPij. = "frPij.",
+                               frMij. = "frMij.",
                                minfr = 5,
                                rr = "rr",
                                format = NULL,
@@ -37,7 +37,7 @@ calculateEEFfromRR <- function(data,
   }
 
   dfRReff <- data %>%
-    filter(!!sym(frPij.) > minfr) %>%
+    filter(!!sym(frMij.) > minfr) %>%
     mutate(eef = (!!sym(XBij)*!!sym(rr)/!!sym(XMij))) %>%
     group_by(across(all_of(indexvars))) %>%
     summarise(eef = mean(eef, na.rm = TRUE))

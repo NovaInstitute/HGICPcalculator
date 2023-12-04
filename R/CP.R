@@ -1,19 +1,24 @@
+
 #' calculateCPy
 #'
 #' @param CPy tibble
-#' @param N
-#' @param enddate
-#' @param startdate
-#' @param frMijk
-#' @param XMijk
+#' @param dfFreq tibble
+#' @param datevars Character.
+#' @param groupvar Character.
 #' @param approach Character. One of "frequency" or "weighing". Default: "frequency"
+#' @param indexvars Character.
+#' @param N Numeric
+#' @param enddate Date
+#' @param startdate Date
+#' @param frMijk Character.
+#' @param frMij Character.
+#' @param XMijk Character.
+#' @param XMi Character.
 #' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
 #' @param web3 Logical. Return web3storage address or not
 #'
 #' @return tibble
 #' @export
-#'
-#' @examples
 
 #* @post /calculateCPy
 #* @get  /calculateCPy

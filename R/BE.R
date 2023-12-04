@@ -1,11 +1,10 @@
 #' simulateBE
 #'
 #' @param data tibble
-#' @param ...
 #' @return data.frame
 #' @export
 
-simulateBE <- function(data, ...){
+simulateBE <- function(data){
 
   CB <- simulateCB(data) %>% pull(estimate)
   EF <- dfCOEF$COEF[[1]]

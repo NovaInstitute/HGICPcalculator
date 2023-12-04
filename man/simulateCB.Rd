@@ -2,7 +2,7 @@
 % Please edit documentation in R/CB.R
 \name{simulateCB}
 \alias{simulateCB}
-\title{Title}
+\title{simulateCB}
 \usage{
 simulateCB(
   data,
@@ -19,8 +19,29 @@ simulateCB(
 )
 }
 \arguments{
-\item{...}{}
+\item{data}{tibble}
+
+\item{XPijk}{Character. Default "XPijk"}
+
+\item{XBijk}{Character. Default "XBijk"}
+
+\item{frMijk}{Character. Default  "frMijk"}
+
+\item{frBPijk}{Character. Default "frBPijk"}
+
+\item{frBijk}{Character. Default "frBijk"}
+
+\item{frPijk}{Character. Default "frPijk"}
+
+\item{groupvar}{Character. Default "groupvar"}
+
+\item{stratvar}{Character. Default "stratvar"}
+
+\item{...}{passed to simulateCP}
+}
+\value{
+tibble
 }
 \description{
-Title
+simulateCB
 }

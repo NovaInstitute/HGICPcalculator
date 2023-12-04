@@ -12,7 +12,7 @@
 #' @param monthvars Character. Name of variable indicating the monthly wood use
 #' @param freqvars Character. Name of variable measured in frequency per day
 #'
-#' @return
+#' @return plotly
 #' @export
 #'
 #' @examples

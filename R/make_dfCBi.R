@@ -24,7 +24,7 @@
 
 make_dfCBi <- function (dfEEF = dfRR_EEFij,
                         dfCP = dfCPi,
-                        frPij. = "frPij.",
+                        frMij. = "frMij.",
                         indexvars = c("place", "year",  "fuel"),
                         eef = "eef",
                         CPi = "CPi",
@@ -32,24 +32,12 @@ make_dfCBi <- function (dfEEF = dfRR_EEFij,
                         N = 1000,
                         format = NULL,
                         web3 = FALSE)
-
-# {CPy <- web3Sub(CPy)
-# if (is.null(CPy)) stop("CPy cannot me NULL")
-# if (approach == "frequency"){
-#   if (is.null(dfFreq)) stop("dfFreq cannot me NULL")
-#   if (is.null(N)) "Listen, this won't work without a population estimate: \n Please provide N"
-#   if (is.null(groupvar)) stop("groupvar cannot me NULL")
-# }{
-#
-# if (!is_tibble(CPy))
-#   stop("CPy must be a tibble")
-# }
 {
 
 
   dfEEF <- RR_EEFij %>% ungroup()
-  dfEEF <- dfEEF %>%  select(!!!indexvars, eef, !!frPij.) %>%
-    filter(!!sym(frPij.) > minfr) %>%
+  dfEEF <- dfEEF %>%  select(!!!indexvars, eef, !!frMij.) %>%
+    filter(!!sym(frMij.) > minfr) %>%
     group_by(!!!syms(indexvars)) %>%
     summarise(mean_eef = mean(!!sym(eef), na.rm = TRUE))
 
