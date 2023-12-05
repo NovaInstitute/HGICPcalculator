@@ -33,6 +33,7 @@ resultsFromBKT <- function(baselineKT = NULL,
                            fuelval = "wood",
                            assignment = "assignment",
                            assignmentval = "baselineKT",
+                           household_qr_code = "household_qr_code",
                            format = NULL,
                            web3 = FALSE
                     ){

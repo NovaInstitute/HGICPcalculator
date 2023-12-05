@@ -22,7 +22,7 @@ calculateER <- function(BE, PE, LE,
   # BE <- HGICPcalculator::web3Sub(BE)
   # PE <- HGICPcalculator::web3Sub(PE)
   # LE <- HGICPcalculator::web3Sub(LE)
-
+if (!is.null(LE)){
   res <- dplyr::left_join(BE, PE) %>%
     dplyr::left_join(LE) %>%
     dplyr::mutate(ERi = BEi - PEi- LEi)
@@ -37,8 +37,22 @@ calculateER <- function(BE, PE, LE,
   if (is.null(format) & !web3){
     return(res)
   }
+} else {
+  res <- dplyr::left_join(BE, PE) %>%
+    dplyr::mutate(ERi = BEi - PEi)
+
+  res <- res %>% dplyr::mutate(ERi = units::set_units(ERi, t)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(year) %>%
+    dplyr::summarise(BE = sum(BEi, na.rm = TRUE),
+                     PE = sum(PEi, na.rm = TRUE),
+                     ER = sum(ERi, na.rm = TRUE))
+  if (is.null(format) & !web3){
+    return(res)
+}
 
   res <- res %>% HGICPcalculator::switchify(format = format) %>%
     HGICPcalculator::web3lify(web3 = web3)
+}
 }
 
