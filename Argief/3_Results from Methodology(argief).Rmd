@@ -1,0 +1,562 @@
+---
+title: "Results for the Brickstar dMRV feasibility study "
+author: "Nova Institute"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document: 
+    fig_caption: yes
+    number_sections: yes
+  html_document: default
+  word_document: default
+subtitle: 
+header-includes: \usepackage{longtable} \usepackage{float} \usepackage{subfig} \usepackage{booktabs}
+  \usepackage{multirow} \usepackage{tabu} \floatplacement{table}{H} \floatplacement{figure}{H}
+  \usepackage{caption}
+  \usepackage{bm}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+```{r echo = FALSE, warning = FALSE, message = FALSE}
+#load("data/SimulationERcalcs.Rda")
+load("../Rda/Data_from_s2.Rda")
+load("../Rda/Tables_for_3.Rda")
+load("../Rda/ConMon.Rda")
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+library(units)
+library(HGICPcalculator)
+library(KitchenTests)
+#source("../R/tydelik_calculateEEFfromRR.R")
+```
+
+```{r}
+dfCOEF <- tibble(fuel = c("wood", "charcoal"), COEF = c(units::as_units(1560, "g/kg"), units::as_units(2860, "g/kg")))
+dffNRB <- tibble(place = "Lwandlamuni", year = c(2023, 2024), fNRB = c(0.3, 0.31))
+
+```
+
+
+
+```{=tex}
+\clearpage
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\newpage
+\pagenumbering{arabic}
+```
+
+# CO~2~ emission reduction due to project activity (t/yr)  
+
+**Definition**  
+
+The total mass of CO~2~ avoided per annum due to the project activity.
+
+**Rationale**  
+
+CO~2~ emissions are linked to climate change. 
+
+**Source(s) of data**  
+
+*  stove tests (WBT)
+*  baseline and project field tests (KT)
+*  non-renewable biomass (NRB) assessment
+*  (ongoing) stove usage monitoring
+*  stove use logbooks
+*  usage survey
+
+**Credibility** 
+
+*Avoidance of specification error*  
+Give preference to tests that represent the actual situation of the end-user.   
+Give preference to objective methods for ongoing sampling.  
+Use a randomly selected sample.
+
+*Avoidance of coverage or frame error*  
+Keep a complete record of all participating households.
+
+*Avoidance of non-response error*  
+Consider a moderate compensation to households for participating in tests that are invasive (like the KPT).
+
+*Avoidance of measurement error*  
+Give preference to objective measurements.  
+Use triangulation.
+
+*Avoidance of processing errors*  
+Report calculations transparently so that all processing steps, including intermediate steps, are visible.
+
+**Calculation** 
+
+## Notation
+
+### Fire frequencies
+
+$fr_{(B)ijk}$: baseline technology frequency for household *j* in subpopulation *i* on day *k* in the baseline scenario of the kitchen test (KT) phase.
+
+$fr_{(P)ijk}$: total frequency for household *j* in subpopulation *i* on day *k* in the project scenario of the KT phase.
+
+$fr_{(M)ijk}$: project measures frequency for household *j* in subpopulation *i* on day *k* in the project scenario of the KT phase.
+
+$fr_{(BP)ijk}$: baseline technology frequency for household *j* in subpopulation *i* on day *k* in the project scenario of the KT phase.
+
+$fr^*_{(M)ijk}$: project measures frequency for household *j* in subpopulation *i* on day *k* in the continuous monitoring (CM) phase.
+
+### Daily fuel use
+
+$x_{(B)ijk}$: daily fuel use (in kg) for household *j* in subpopulation *i* on day *k* in the baseline scenario of the KT phase.
+
+$x_{(P)ijk}$: total daily fuel use (in kg) for household *j* in subpopulation *i* on day *k* in the project scenario of the KT phase.
+
+$x_{(M)ijk}$: daily project measures fuel use (in kg) for household *j* in subpopulation *i* on day *k* in the project scenario of the KT phase.
+
+$x_{(BP)ijk}$: daily baseline technology fuel use (in kg) for household *j* in subpopulation *i* on day *k* in the project scenario of the KT phase.
+
+
+### Totals and averages
+
+$fr_{(B)ij.}$: total frequency for the duration of the baseline scenario of the KT phase of baseline technology for household *j* in subpopulation *i*.
+
+$\overline{fr}_{(B)ij}$: average daily baseline technology frequency for the duration of the baseline scenario of the KT phase for household *j* in subpopulation *i*.
+
+$\overline{fr}_{(B)i}$: average daily baseline technology frequency for the baseline scenario of the KT phase for subpopulation *i*.
+
+Totals and averages for other frequencies follow a similar notation.
+
+$x_{(B)ij.}$: total fuel use (in kg) for the duration of the baseline scenario of the KT phase of baseline technology for household *j* in subpopulation *i*. 
+
+$\overline{x}_{(B)ij}$: average baseline technology fuel use per fire for household *j* in subpopulation *i*.
+
+$\overline{x}_{(B)i}$: average baseline technology fuel use per fire in the baseline scenario of the KT phase for subpopulation *i*.
+
+Totals and averages for other fuel use follow a similar notation.
+
+### Number of days and number of subpopulations
+
+$n_{(B)ij}$: total number of days that household *j* in subpopulation *i* was observed in the baseline scenario of the KT phase.
+
+$n_{(P)ij}$: total number of days that household *j* in subpopulation *i* was observed in the project scenario of the KT phase.
+
+$n^*_{ij}$: total number of days that household *j* in subpopulation *i* was observed in the CM phase.
+
+$n_{(KT)}$: total number of subpopulations in the KT phase.
+
+
+## Calculation of $\bm{ER_y}$
+
+#### Calculation
+
+$$ER_{y} = BE_{y}- PE_{y}$$
+
+Where:  
+
+$ER_{y} =$ The total mass of CO~2~ avoided in year *y* across all project participants due to the project activity (tonnes)  
+
+$BE_{y} =$ The total baseline CO~2~ emissions for year *y* across all project participants (tonnes)  
+
+$PE_{y} =$ The total project CO~2~ emissions for year *y* across all project participants (tonnes)
+
+
+```{r ER}
+kable(BE %>%
+        left_join(PE) %>%
+        left_join(ER) %>%
+        ungroup() %>%
+      select(-PEi, -BEi),
+      digits = 2,
+      booktabs = TRUE,
+      caption = "Total emission reduction in year y across all project participants due to the project activity (tonnes)")
+```
+
+\clearpage
+
+## Calculation of project CO~2~ emissions 
+
+### Calculation of $\bm{PE_y}$
+
+#### Calculation
+
+$PE_{y}$ is calculated as:
+
+$$PE_{y} = \sum_{f} C_{(P)y,f} \times EF_{(CO_2)f} \times f_{(NRB)y}$$ 
+
+Where:  
+
+$C_{(P)y,f} =$ The total project consumption of fuel *f* for year *y* across all project participants (tonnes)  
+
+$EF_{(CO_2)f} =$ CO~2~ emission factor for fuel *f*  
+
+$f_{(NRB)y} =$ The fraction of non-renewable biomass in the fuel-sourcing environment for year *y* 
+
+For simplicity in notation we will from this point forth use the notation $C_{(P)}$ for $C_{(P)y,f}$ with the understanding that $C_{(P)}$ is the total fuel consumption across all subpopulations and households for year *y* and fuel type *f*. 
+
+```{r PE}
+kable(PE %>% left_join(dfCy) %>% select(PEi, CPi ) %>%  left_join(dfCOEF) %>% left_join(dffNRB), digits = 2, booktabs = TRUE, caption = "Calculation of PE")
+```
+
+### Calculation of $\bm{C_{(P)}}$
+
+#### Calculation
+
+$C_{(P)}$ is calculated as:  
+
+$$C_{(P)} = 
+\sum_{i}^{n_{(KT)}} C_{(P)i}$$
+
+
+  *  $C_{(P)i}$ is the total fuel consumption in the project scenario for subpopulation *i*.
+  
+  *   $n_{(KT)}$ is the number of subpopulations in the kitchen test.
+
+### Calculation of $\bm{C_{(P)i}}$ 
+
+#### Calculation
+
+$C_{(P)i}$ is calculated as 
+
+
+$$C_{(P)i}=(\overline{d^*}_{i} \times N^*_{i}) \times (\overline{fr^*}_{(M)i} \times \overline{x}_{(M)i})$$
+
+
+*   $\overline{d^*}_{i}$ is the average days of the sampled households in the continued monitoring phase of project operation in subpopulation *i*.
+
+*   $N^*_{i}$ is the project population size in subpopulation *i*. At this stage it is set at $N = 1000$.
+
+*   $\overline {fr^*}_{i}$ is the average project measures frequency per day in subpopulation *i* in the continuous monitoring (CM) phase.
+
+*   $\overline{x}_{(M)i}$ is the average project measures fuel use (in kg) per fire for subpopulation *i* in the project scenario of the KT phase.
+
+```{r CPy}
+kable(dfCPi, 
+      digits = 2, 
+      booktabs = TRUE, 
+      caption = "\\label{tab:CPi}Calculation of project emissions per place")%>%  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+### Calculation of $\bm{\overline{d^*}_{i}}$
+
+#### Calculation
+
+The average days of project operation is calculated as 
+$$ \overline{d^*}_{i}=\frac{1}{n^*_i}\sum_{j}^{n^*_i} d^*_{ij}$$
+
+  *   $d^*_{ij}$ is the total days of project operation in the CM phase for household *j* in subpopulation *i*. The total days of operation for each household can be determined as the number of days since the project technology has been implemented for each household and will be available in the project register.
+  
+  *   $n^*_{i}$ is the total number of households that were observed in the CM phase. 
+
+In Table \ref{tab:CPi} $\overline{d^*}_i$ is `r dfCPi %>% select(mean_days) %>% pull() ` the average of the column *ndays_monitoring* in Table \ref{tab:ConMonij}.
+
+
+```{r}
+kable(ConMonij %>% set_names(gsub("household_|_monitoring_period", "", names(.))) %>% head(),
+      digits = 2, booktabs = TRUE, caption = "\\label{tab:ConMonij}Sample of continuous monitoring data summarised by household") %>%
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+
+### Calculation of $\bm{\overline{fr^*}_{i}}$
+
+#### Calculation
+
+The average project measures frequency per day in the CM phase $\overline{fr^*}_{i}$ for subpopulation *i* is determined from a sample in the continuous monitoring phase and is calculated as
+
+$$\overline{fr^*}_{i}=\frac{1}{n^*_i} \sum_j^{n^*_i}\frac{fr^*_{ij.}}{n^*_{ij}}$$
+
+*   $fr^*_{ij.}$ is the total project measures frequency for household *j* in subpopulation *i* for the CM phase.
+
+*   $n^*_{ij}$ is the total number of days that household *j* in subpopulation *i* was observed in the CM phase.
+
+* $n^*_i$ is the number of households in subpopulation *i* that were observed in the CM phase.
+
+In Table \ref{tab:CPi} $\overline{fr^*}_{i}$ is `r dfCPi %>% select(frMi) %>% pull() %>% round(2) ` which is the average of the column *frMij* in Table \ref{tab:ConMonij}.
+
+### Calculation of $\bm{\overline{x}_{(M)i}}$
+
+#### Calculation \label{sec:avXMi}
+
+The average project measures fuel use (in kg) in the project scenario for subpopulation *i* is calculated as the average of the household average fuel use per project measures fire observed in the kitchen test.  
+\[
+\overline{x}_{(M)i} = \frac{1}{n_{(P)i}} \sum_{j}^{n_{(P)i}} \overline{x}_{(M)ij} 
+\]
+ and $\overline{x}_{(M)ij}$ is calculated as
+ 
+\[
+\overline{x}_{(M)ij} =  \sum_{k}^{n_{(P)ij}} \frac{x_{(M)ijk}}{fr_{(M)ijk}} 
+\]
+
+*   $x_{(M)ijk}$ is the project measures fuel use on day *k* for household *j* in subpopulation *i* for the project phase of the KT.
+
+*   $fr_{(M)ijk}$ is the project measures frequency on day *k* for household *j* in subpopulation *i* in the project phase of the KT.
+
+* $n_{(P)ij}$ is the number of valid observations for household *j* in subpopulation *i* in the project phase of the KT.
+
+* $n_{(P)i}$ is the number of households that were observed in the project phase of the KT.
+
+```{r}
+kable(dfresP %>% select(place, year, household_qr_code, XBPij., frBPij.,XBPij_m2, XMij., frMij.,XMij_m2) %>% head() ,
+      digits = 2, booktabs = TRUE, 
+      caption = "\\label{tab:dfresP}Sample of data from project kitchen test results summarised by household") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+In Table \ref{tab:dfresP} $\frac{1}{n_{(P)ij}}\sum \frac{x_{(M)ijk}}{fr_{(M)ijk}}$ is given in column *XMij_m2*.
+In Table \ref{tab:CPi} $\overline{x}_{(M)i}$ is `r dfCPi %>% select(XMi) %>% pull() %>% round(2) ` which is the average of the column *XMij_m2* in Table \ref{tab:dfresP}.
+
+
+\clearpage
+
+## Calculation of baseline CO~2~ emissions
+
+### Calculation of $\bm{BE_y}$ 
+
+#### Calculation 
+
+$BE_{y}$ is calculated as:
+
+$$BE_{y} = \sum_{f} C_{(B)y,f} \times EF_{(CO_2)f} \times f_{(NRB)y}$$ 
+
+Where:  
+
+$C_{(B)y,f} =$ The total baseline consumption of fuel *f* for year *y* across all project participants (tonnes)  
+$EF_{(CO_2)f} =$ CO~2~ emission factor for fuel *f*  
+$f_{(NRB)y} =$ The fraction of non-renewable biomass in the fuel-sourcing environment for year *y*   
+
+For simplicity in notation we will from this point forth use the notation $C_{(B)}$ for $C_{(B)y,f}$ with the understanding that $C_{(B)}$ is the total fuel consumption across all subpopulations and households for year *y* and fuel type *f*. 
+
+```{r BE}
+kable(BE %>% left_join(dfCy) %>% select(BEi, CPi ) %>%  left_join(dfCOEF) %>% left_join(dffNRB), digits = 2, booktabs = TRUE, caption = "Calculation of BE") %>%  kableExtra::kable_styling(latex_options = c("HOLD_position" ))
+```
+
+
+### Calculation of $\bm{C_{(B)}}$
+
+#### Calculation 
+
+$C_{(B)}$ is calculated as:
+
+$$C_{(B)} = \sum_{i}^{n_{(KT)}} \overline{eef}_{i} \times C_{(P)i}$$
+
+  *   $C_{(P)i}$ is the total fuel consumption for subpopulations *i* (see calculation in previous paragraph).
+
+  *   $\overline{eef}_i$ is the average energy efficiency factor for subpopulation *i*.
+  
+  *   $n_{(KT)}$ is the number of subpopulations in the kitchen test.
+
+
+```{r}
+kable(dfCBi %>% select(-frMi, -XMi ), digits = 2, booktabs = TRUE, caption = "\\label{tab:CBi}Calculation of baseline emissions per place") %>%  kableExtra::kable_styling(latex_options = c("HOLD_position", "scale_down" ))
+```
+
+### Calculation of $\bm{\overline{eef}_i}$
+
+#### Calculation
+
+$eef_i$ is calculated as
+
+$$\overline{eef}_i = \frac{1}{n_{(P)i}}\sum_{j}^{n_{(P)i}}eef_{ij}$$
+Where
+
+  *   $eef_{ij}$ is the energy efficiency factor for household *j* in subpopulation *i*.
+  
+  *   $n_{(P)i}$ is the number of households in the project phase of the KT.
+  
+The energy efficiency factor for household *j* in subpopulation *i* is calculated as
+
+$$eef_{ij}=\frac{\overline{x}_{(B)ij}\times {rr}_{ij}}{\overline{x}_{(M)ij}}$$
+
+Where: 
+
+  *   $rr_{ij}$ the replacement ratio at which baseline measures fires are replaced by project measures fires for household *j* in subpopulation *i*.
+
+  *   $\overline{x}_{(B)ij}$ the average fuel use (in kg) per fire in the baseline scenario of the KT for household *j* in subpopulation *i*.
+
+  *   $\overline{x}_{(M)ij}$ the average project measures fuel use (in kg) per fire in the project scenario of the KT for household *j* in subpopulation *i*.
+
+NOTE: the $eef_{ij}$ for household *j* in subpopulation *i* is not included in the calculation of $\overline{eef}_i$ if the total project measure frequency $fr_{(M)ij.}$ for household *j* in subpopulation *i* does not exceed a subminimum. This subminimum is set at 5. For a too small $fr_{(M)ij.}$ the replacement ratio $rr_{ij}$ is unrealistically large and based on too little data, see Section \ref{sec:rr}
+
+
+```{r}
+kable(RR_EEFij %>% select(place, year, household_qr_code, XBij_m3,
+                          XBPij_m2, XMij_m2, rr, eef) %>% head() , digits = 2, booktabs = TRUE,
+      caption = "\\label{tab:RR_EEFij}Sample of the calculation of $eef$") %>%
+  kableExtra::kable_styling(latex_options = c("HOLD_position", "scale_down" ))
+```
+
+In Table \ref{tab:RR_EEFij} $eef_{ij}$ is given in column *eef* and is calculated from the product of $\overline{x}_{(B)ij}$ (in column *XBij_m2*) with $rr_{ij}$ (in column *rr*) divided by $\overline{x}_{(M)ij}$ (in column *XMij_m2*).
+
+### Calculation of $\bm{\overline{x}_{(M)ij}}$
+
+The calculation of $\overline{x}_{(M)ij}$ was shown in Section \ref{sec:avXMi}.
+
+### Calculation of $\bm{\overline{x}_{(B)ij}}$
+
+#### Calculation
+The average fuel use (in kg) per fire in the baseline scenario for household *j* in subpopulation *i* is calculated as the average of the daily average fuel per fire.
+
+\[
+\overline{x}_{(B)ij} =  \frac{1}{n_{(B)ij}}\sum_{k}^{n_{(B)ij}} \frac{x_{(B)ijk}}{fr_{(B)ijk}} 
+\]
+
+Where
+
+*   $x_{(B)ijk}$ is the daily fuel use on day *k* for household *j* in subpopulation *i* for the baseline phase of the KT.
+
+*   $fr_{(B)ijk}$ is the frequency on day *k* for household *j* in subpopulation *i* in the baseline phase of the KT.
+
+* $n_{(B)ij}$ is the number of valid observations for household *j* in subpopulation *i* in the baseline phase of the KT.
+
+
+
+```{r}
+kable(dfresB %>% unnest(cols = c(data)) %>% 
+        filter(household_qr_code == "6a8af21c1da0835997802ce38148acea") %>% 
+        select(place, year, household_qr_code, diffB, frBijk,XBijk_m2,
+               XBij_m2),
+      digits = 2, booktabs = TRUE, 
+      caption = "\\label{tab:dfresB_unnest}Sample of data from baseline kitchen test") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+
+```{r}
+kable(dfresB %>% select(place, year, household_qr_code, XBij., frBij.,XBij_m2) %>% head() ,
+      digits = 2, booktabs = TRUE, 
+      caption = "\\label{tab:dfresB}Sample of data from baseline kitchen test results summarised by household") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+Table \ref{tab:dfresB_unnest} gives the observations for a single household. Column *XBijk_m2* gives $\frac{x_{(B)ijk}}{fr_{(B)ijk}}$, the daily average fuel use per fire. The average daily average per household is given in column *XBij_m2*.  
+In Table \ref{tab:CPi} $\overline{x}_{(B)i}$ is `r dfCPi %>% select(XBi) %>% pull() %>% round(2) ` which is the average of the column *XBij_m2* in Table \ref{tab:dfresB}. 
+
+
+\clearpage
+
+### Calculation $\bm{rr_{ij}}$ \label{sec:rr}
+
+#### Calculation
+The replacement ratio for household *j* in subpopulation *i* is calculated as
+
+$$rr_{ij} = \frac{{fr}_{(B)ij.} \times \frac{ndays\_PKT}{ndays\_BKT} - {fr}_{(BP)ij.}}{{fr}_{(M)ij.}}$$
+Where
+
+  *   ${fr_{(B)ij.} \times \frac{ndays\_PKT}{ndays\_BKT}}$ is the scaled total number of fires per day in the baseline phase for household *j* in subpopulation *i* to take into account the difference in total days in the baseline phase of the kitchen test and the project phase of the kitchen test.
+  
+  *   ${fr}_{(BP)ij.}$ is the total number of baseline fires per day for household *j* in subpopulation *i* in the project phase of the kitchen test. 
+  
+  *   ${fr}_{(M)ij.}$ is the total number of project measures fires per day for household *j* in subpopulation *i* in the project phase of the kitchen test.
+
+```{r}
+kable(RR_EEFij %>% select(place, year, household_qr_code, frBij.,
+                          ndays_BKT, frMij., frPij., ndays_PKT, rr) %>% head() , digits = 2, booktabs = TRUE,
+      caption = "\\label{tab:RRij}Calculation of replacement ratio per household") %>%
+  kableExtra::kable_styling(latex_options = c("HOLD_position", "scale_down" ))
+```
+
+Table \ref{tab:RRij} shows the calculated replacement ratio for a sample of the households.
+
+
+## Calculation of leakage CO~2~ emissions
+
+### Calculation of $\bm{LE_y}$ 
+
+#### Calculation
+
+Leakage will be due to continued use of baseline technology.
+$LE_{y}$ is calculated as:
+
+$$LE_{y} = \sum_{f} L_{(P)y,f} \times EF_{(CO_2)f} \times f_{(NRB)y}$$ 
+
+Where:  
+$L_{(P)y,f} =$ The total leakage consumption of fuel *f* for year *y* across all project participants. This is fuel consumption by the baseline technologies in the project scenario (tonnes)  
+$EF_{(CO_2)f} =$ CO~2~ emission factor for fuel *f*  
+$f_{(NRB)y} =$ The fraction of non-renewable biomass in the fuel-sourcing environment for year *y*   
+
+For simplicity in notation we will from this point forth use the notation $L_{(P)}$ for $L_{(P)y,f}$ with the understanding that $L_{}$ is the total fuel consumption across all subpopulations and households for year *y* and fuel type *f*. 
+
+### Calculation or $\bm{L_{(P)}}$ and $\bm{L_{(P)i}}$ 
+$L_{(P)y,f} =$ The total baseline consumption of fuel *f* for year *y* across all project participants (tonnes)  
+$EF_{(CO_2)f} =$ CO~2~ emission factor for fuel *f*  
+$f_{(NRB)y} =$ The fraction of non-renewable biomass in the fuel-sourcing environment for year *y*   
+
+For simplicity in notation we will from this point forth use the notation $L_{(P)}$ for $L_{(P)y,f}
+$ with the understanding that $L_{}$ is the total fuel consumption across all subpopulations and households for year *y* and fuel type *f*. 
+
+```{r LE}
+kable(LE %>% left_join(dfCy) %>% select(LEi, CPi ) %>%  left_join(dfCOEF) %>% left_join(dffNRB), digits = 2, booktabs = TRUE, caption = "Calculation of LE") %>%  kableExtra::kable_styling(latex_options = c("HOLD_position" ))
+```
+
+### Calculation or $\bm{L_{(P)}}$
+
+#### Calculation
+
+$L_{(P)}$ is calculated as:
+
+$$L_{(P)} = \sum_{i}^{n_i}  L_{(P)i}$$
+and $L_{(P)i}$ is the total leakage in the project scenario for subpopulation *i*.
+
+$L_{(P)i}$ is calculated as 
+
+$$L_{(P)i}=(\overline{d}_{(P)i} \times N_{(P)i})\times (
+\overline{frr}_i\times \overline{fr^*}_{(M)i} \times \overline{x}_{(B)i})$$
+
+*   $\overline{d}_{(P)i}$ is the average days over the sampled households of project operation in subpopulation *i*.
+
+*   $N_{(P)i}$ is the project population size in subpopulation *i*. At this stage it is set at $N = 1000$.
+
+*   $\overline{frr}_i$ is the average frequency ratio of non project measures fires to the project measures fires in subpopulation *i* in the project scenario of the KT phase.
+*   $\overline {fr^*}_{(M)i}$ is the average project measures frequency per day in subpopulation *i* in the post KT phase .
+
+*   $\overline{x}_{(B)i}$ is the average fuel use (in kg) per fire for subpopulation *i* in the baseline scenario of the KT phase. 
+
+```{r}
+kable(dfCLi %>%
+    head(5),
+    digits = 2, booktabs = TRUE,
+    caption = "\\label{tab:CLi}Get CLi")%>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+
+
+### Calculation of $\bm{\overline{frr}_i }$
+
+The average frequency ratio of non-project measures fires to the project measures fires in the project scenario for household *j* in subpopulation *i* is calculated as $$\overline{frr}_i = \frac {1}{n_{(P)i}} \sum_{j}^{n_{(P)i}}\frac{fr_{(BP)ij.}}{fr_{(M)ij.}}$$
+
+*   $n_{(P)i}$ is the number of households that were observed in the project phase of the KT.
+*   $fr_{(BP)ij.}$ is the total frequency of non-project measures fires for household *j* in subpopulation *i* in the project phase of the KT.
+*   $fr_{(M)ij.}$ is the total frequency of project measures fires for household *j* in subpopulation *i* in the project phase of the KT.
+
+These values are derived from the project kitchen test. 
+
+```{r}
+kable(dfFrRij %>%
+    head(5),
+    digits = 2, booktabs = TRUE,
+    caption = "\\label{tab:FrR}Sample of the calculation of frequency ratio $frr_{ij}$ from the project KT phase")
+```
+
+### Calculation of $\bm{\overline{x}_{(B)i}}$
+
+#### Calculation
+
+The average baseline fuel use per fire (in kg) for subpopulation *i* is calculated as the average of the household average fuel use per fire observed in the baseline phase of the kitchen test.  $$\overline{x}_{(B)i}=\frac{1}{n_{(B)i}}\sum_{j}^{n_{(B)i}} \frac{x_{(B)ij.}}{fr_{(B)ij.}}$$
+
+*   $x_{(B)ij.}$ is the total fuel use for household *j* in subpopulation *i* for the baseline phase of the KT.
+
+*   $fr_{(B)ij}$ is the total fire frequency for household *j* in subpopulation *i* in the baseline phase of the KT.
+
+* $n_{(B)i}$ is the number of households that were observed in the baseline phase of the KT.
+
+
+```{r}
+kable(dfresB %>% select(-data) %>% head() ,
+      digits = 2, booktabs = TRUE, 
+      caption = "\\label{tab:dfresB}Sample of data from baseline kitchen test results summarised by household") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
+```
+
+
+
