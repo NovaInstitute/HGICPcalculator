@@ -3,12 +3,13 @@ library(tidyverse)
 library(kableExtra)
 library(units)
 library(HGICPcalculator)
-library(KitchenTests)
 library(jellyfi3shR)
 
 #Load data from package KitchenTests
 path = "C:/Users/User/Documents/NOVA/KitchenTests/Rda/"
-load(paste0(path,"CombinedResults_from_s2.Rda"))
+dfresBP <- readRDS(paste0(path,"dfresBP_from_s5.Rds"))
+dfresB <- readRDS(paste0(path,"dfresB_from_s4.Rds"))
+dfresP <- readRDS(paste0(path,"dfresP_from_s4.Rds"))
 load(paste0(path,"ConMon.Rda"))
 
 # Set the parameters
@@ -63,5 +64,5 @@ LE <- calculateE(Cy = dfCy, var = "CLi", outcome = "LEi", onlyOutcomeAndGroups =
 ER <- calculateER(BE, PE, LE = NULL)
 
 save(dfCPi, ConMonij,RR_EEFij,dfCBi, dfCLi,dfFrRij, dfCy,
-     PE,BE, LE, ER, file = "Rda/Tables_for_3.Rda")
+     PE,BE, LE, ER, file = "Rda/Tables_for_ER_calculation.Rda")
 

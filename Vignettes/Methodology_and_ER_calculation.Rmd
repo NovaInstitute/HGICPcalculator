@@ -30,9 +30,10 @@ library(KitchenTests)
 
 ```{r}
 path = "C:/Users/User/Documents/NOVA/KitchenTests/Rda/"
-load(paste0(path,"CombinedResults_from_s2.Rda"))
-load(paste0(path,"ConMon.Rda"))
-load("Rda/Tables_for_3.Rda")
+dfresBP <- readRDS(paste0(path,"dfresBP_from_s5.Rds"))
+dfresB <- readRDS(paste0(path,"dfresB_from_s4.Rds"))
+dfresP <- readRDS(paste0(path,"dfresP_from_s4.Rds"))
+load("../Rda/Tables_for_ER_calculation.Rda")
 ```
 
 ```{r}
@@ -378,7 +379,7 @@ NOTE: the $eef_{ij}$ for household *j* in subpopulation *i* is not included in t
 
 
 ```{r}
-kable(RR_EEFij %>% select(place, year, household_qr_code, XBij_m3,
+kable(RR_EEFij %>% select(place, year, household_qr_code, XBij_m2,
                           XBPij_m2, XMij_m2, rr, eef) %>% head() , digits = 2, booktabs = TRUE,
       caption = "\\label{tab:RR_EEFij}Sample of the calculation of $eef$") %>%
   kableExtra::kable_styling(latex_options = c("HOLD_position", "scale_down" ))
