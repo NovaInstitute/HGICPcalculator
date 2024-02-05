@@ -60,7 +60,5 @@ dfConMon_sum <- dfConMon %>% group_by(!!!syms(indexvars)) %>%
     web3lify(web3 = web3)
 
 }
-v <- make_dfCPi(dfConMon = dfConMon, KTresults = dfresBP)
 
-v
 
