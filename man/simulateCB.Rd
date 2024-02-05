@@ -14,7 +14,6 @@ simulateCB(
   frPijk = "frPijk",
   groupvar = "households",
   stratvar = "Z",
-  NDPi = NULL,
   ...
 )
 }

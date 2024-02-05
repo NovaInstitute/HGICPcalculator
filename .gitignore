@@ -2,5 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.Rbuildignore
 Vignettes/Simulation.pdf
 Vignettes/Simulation_envir.Rmd
+data/*
