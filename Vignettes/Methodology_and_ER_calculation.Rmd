@@ -210,13 +210,13 @@ Where
 $C_{(P)i}$ is calculated as 
 
 
-$$C_{(P)i}=(\overline{d^*}_{i} \times N^*_{i}) \times (\overline{fr^*}_{(M)i} \times \overline{x}_{(M)i})$$
+$$C_{(P)i}=(\overline{d^*}_{i} \times N^*_{i}) \times (\overline{fr^*}_{i} \times \overline{x}_{(M)i})$$
 
 Where
 
 *   $\overline{d^*}_{i}$ is the average days of the sampled households in the continued monitoring phase of project operation in subpopulation *i*.
 
-*   $N^*_{i}$ is the project population size in subpopulation *i*. At this stage it is set at $N = 1000$.
+*   $N^*_{i}$ is the project population size in subpopulation *i*. At this stage it is set at $N = 19$.
 
 *   $\overline {fr^*}_{i}$ is the average project measures frequency per day in subpopulation *i* in the continuous monitoring (CM) phase.
 
@@ -241,12 +241,12 @@ Where
   
   *   $n^*_{i}$ is the total number of households that were observed in the CM phase. 
 
-In Table \ref{tab:CPi} $\overline{d^*}_i$ is `r dfCPi %>% select(mean_days) %>% pull() ` the average of the column *ndays_monitoring* in Table \ref{tab:ConMonij}.
+In Table \ref{tab:CPi} $\overline{d^*}_i$ is `r round(dfCPi %>% select(av_days) %>% pull(),1) ` the average of the column *ndays_cm* in Table \ref{tab:ConMon}.
 
 
 ```{r}
-kable(ConMonij %>% set_names(gsub("household_|_monitoring_period", "", names(.))) %>% head(),
-      digits = 2, booktabs = TRUE, caption = "\\label{tab:ConMonij}Sample of continuous monitoring data summarised by household") %>%
+kable(dfConMon %>% set_names(gsub("household_|_monitoring_period", "", names(.))) %>% head(),
+      digits = 2, booktabs = TRUE, caption = "\\label{tab:ConMon}Sample of continuous monitoring data summarised by household") %>%
   kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
 ```
 
@@ -257,16 +257,16 @@ kable(ConMonij %>% set_names(gsub("household_|_monitoring_period", "", names(.))
 
 The average project measures frequency per day in the CM phase $\overline{fr^*}_{i}$ for subpopulation *i* is determined from a sample in the continuous monitoring phase and is calculated as
 
-$$\overline{fr^*}_{i}=\frac{1}{n^*_i} \sum_j^{n^*_i}\frac{fr^*_{ij.}}{n^*_{ij}}$$
+$$\overline{fr^*}_{i}=\frac{\sum_j^{n^*_i}{fr^*_{ij.}}}{\sum_j^{n^*_i}{d^*_{ij.}}}$$
 Where
 
 *   $fr^*_{ij.}$ is the total project measures frequency for household *j* in subpopulation *i* for the CM phase.
 
-*   $n^*_{ij}$ is the total number of days that household *j* in subpopulation *i* was observed in the CM phase.
+*   $d^*_{ij.}$ is the total number of days that household *j* in subpopulation *i* was observed in the CM phase.
 
 * $n^*_i$ is the number of households in subpopulation *i* that were observed in the CM phase.
 
-In Table \ref{tab:CPi} $\overline{fr^*}_{i}$ is `r dfCPi %>% select(frMi) %>% pull() %>% round(2) ` which is the average of the column *frMij* in Table \ref{tab:ConMonij}.
+In Table \ref{tab:CPi} $\overline{fr^*}_{i}$ is `r dfCPi %>% select(frMi) %>% pull() %>% round(2) ` which is *frMij./project_days* in Table \ref{tab:CPi}.
 
 ### Calculation of $\bm{\overline{x}_{(M)i}}$
 
