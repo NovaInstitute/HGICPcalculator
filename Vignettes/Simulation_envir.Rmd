@@ -3,6 +3,9 @@ title: "Digitally native methodology to quantify greenhouse gas emission reducti
 author: "Nova Institute"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
   pdf_document: 
     fig_caption: yes
     number_sections: yes

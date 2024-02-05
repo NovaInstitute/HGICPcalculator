@@ -1,0 +1,6 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+Vignettes/Simulation.pdf
+Vignettes/Simulation_envir.Rmd
