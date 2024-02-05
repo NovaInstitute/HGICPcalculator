@@ -1,5 +1,4 @@
 library(knitr)
-
 library(tidyverse)
 library(kableExtra)
 library(units)
@@ -38,7 +37,7 @@ dfCPi <- make_dfCPi(dfConMon = dfConMon, KTresults = dfresBP)
 ## Calculation of rrij and eefij
 RR_EEFij <- make_dfRRij_EEFij(dfresBP)
 RR <- calculateRRij(data = dfresBP)
-EEF <- calculateEEFfromRR(data = RR, minfr = 5)
+#EEF <- calculateEEFfromRR(data = RR, minfr = 5)
 
 ## Calculation of xbar(B)i
 
@@ -64,7 +63,7 @@ dfCy <- dfCPi %>%
   group_by(place, year, fuel)
 PE <- calculateE(Cy = dfCy, var = "CPi", outcome = "PEi", onlyOutcomeAndGroups = TRUE)
 BE <- calculateE(Cy = dfCy, var = "CBi", outcome = "BEi", onlyOutcomeAndGroups = TRUE)
-LE <- calculateE(Cy = dfCy, var = "CLi", outcome = "LEi", onlyOutcomeAndGroups = TRUE)
+#LE <- calculateE(Cy = dfCy, var = "CLi", outcome = "LEi", onlyOutcomeAndGroups = TRUE)
 
 ER <- calculateER(BE, PE, LE = NULL)
 
