@@ -8,11 +8,14 @@ library(jellyfi3shR)
 #Load data from package KitchenTests
 path1 = "C:/Users/User/Documents/NOVA/KitchenTests/Rda/"
 path2 = "C:/Users/User/Documents/NOVA/ContinuousCookstoves/Data/"
-dfresBP <- readRDS(paste0(path1,"dfresBP_from_s5.Rds"))
-dfresB <- readRDS(paste0(path1,"dfresB_from_s4.Rds"))
-dfresP <- readRDS(paste0(path1,"dfresP_from_s4.Rds"))
-#load(paste0(path,"ConMon.Rda"))
-dfConMon <- readRDS(paste0(path2,"dfCM.Rds"))
+
+local = TRUE
+
+if (local){
+  load(paste0(path1, "AllResults.Rda"))
+  load(paste0(path1, "All_CombinedResults.Rda"))
+  dfConMon <- readRDS(paste0(path2,"dfCM.Rds"))
+}
 
 # Set the parameters
 dfCOEF <- tibble(fuel = c("wood", "charcoal"), COEF = c(units::as_units(1560, "g/kg"), units::as_units(2860, "g/kg")))
