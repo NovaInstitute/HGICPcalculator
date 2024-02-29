@@ -13,7 +13,7 @@ local = TRUE
 
 if (local){
   load(paste0(path1, "AllResults.Rda"))
-  load(paste0(path1, "All_CombinedResults.Rda"))
+  load(paste0(path1, "AllCombinedResults.Rda"))
   dfConMon <- readRDS(paste0(path2,"dfCM.Rds"))
 }
 
