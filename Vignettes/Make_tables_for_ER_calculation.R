@@ -19,7 +19,7 @@ if (local){
 
 # Set the parameters
 dfCOEF <- tibble(fuel = c("wood", "charcoal"), COEF = c(units::as_units(1560, "g/kg"), units::as_units(2860, "g/kg")))
-dffNRB <- tibble(place = "Lwandlamuni", year = c(2023, 2024), fNRB = c(0.3, 0.31))
+dffNRB <- tibble(place = "Lwandlamuni", year = c(2023, 2024), fNRB = c(0.3, 0.3))
 
 # Calculation of C(P) the total fuel consumption in the project scenario for subpopulation i
 

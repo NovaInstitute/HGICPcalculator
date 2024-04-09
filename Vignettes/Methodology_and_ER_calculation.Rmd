@@ -25,14 +25,23 @@ library(tidyverse)
 library(kableExtra)
 library(units)
 library(KitchenTests)
+library(HGICPcalculator)
+library(jellyfi3shR)
+source("../R/makeTablesforER.R")
 ```
 
+
+
 ```{r}
-path = "C:/Users/User/Documents/NOVA/KitchenTests/Rda/"
-dfresBP <- readRDS(paste0(path,"dfresBP_from_s5.Rds"))
-dfresB <- readRDS(paste0(path,"dfresB_from_s4.Rds"))
-dfresP <- readRDS(paste0(path,"dfresP_from_s4.Rds"))
-load("../Rda/Tables_for_ER_calculation.Rda")
+path1 = "C:/Users/User/Documents/NOVA/KitchenTests/Rda/AllCombinedResults.rda"
+path2 = "C:/Users/User/Documents/NOVA/ContinuousCookstoves/Data/dfCM.rds"
+dfConMon <- readRDS(path2)
+load(path1)
+makeTablesforER(dfConMon = dfConMon, dfresBP = dfresBP)
+#dfresBP <- readRDS(paste0(path,"dfresBP_from_s5.Rds"))
+#dfresB <- readRDS(paste0(path,"dfresB_from_s4.Rds"))
+#dfresP <- readRDS(paste0(path,"dfresP_from_s4.Rds"))
+#load("../Rda/Tables_for_ER_calculation.Rda")
 ```
 
 ```{r}
