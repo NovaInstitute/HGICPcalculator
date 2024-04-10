@@ -51,6 +51,7 @@ dfCy <- dfCPi %>%
   left_join(dfCBi %>% select(place, year, fuel, date_start_monitoring_period, date_end_monitoring_period, CBi)) %>%
   group_by(place, year, fuel)
 PE <- calculateE(Cy = dfCy, var = "CPi", outcome = "PEi", onlyOutcomeAndGroups = TRUE)
+
 BE <- calculateE(Cy = dfCy, var = "CBi", outcome = "BEi", onlyOutcomeAndGroups = TRUE)
 
 ER <- calculateER(BE, PE, LE = NULL)
