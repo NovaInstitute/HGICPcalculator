@@ -50,16 +50,16 @@ dfCy <- dfCPi %>%
   select(place, year, fuel, date_start_monitoring_period, date_end_monitoring_period, CPi) %>%
   left_join(dfCBi %>% select(place, year, fuel, date_start_monitoring_period, date_end_monitoring_period, CBi)) %>%
   group_by(place, year, fuel)
-PE <- calculateE(Cy = dfCy, var = "CPi", outcome = "PEi", onlyOutcomeAndGroups = TRUE)
+PE <- calculateE(Cy = dfCy, COEF = dfCOEF, fNRB = dffNRB, var = "CPi", outcome = "PEi", onlyOutcomeAndGroups = TRUE)
 
-BE <- calculateE(Cy = dfCy, var = "CBi", outcome = "BEi", onlyOutcomeAndGroups = TRUE)
+BE <- calculateE(Cy = dfCy, COEF = dfCOEF, fNRB = dffNRB,var = "CBi", outcome = "BEi", onlyOutcomeAndGroups = TRUE)
 
 ER <- calculateER(BE, PE, LE = NULL)
 
 file_to_save = gsub("-", "", paste0(path,"Rda/ERTables",startdate, "_", enddate,".Rda"))
 
 save(dfConMon, dfresBP, dfCPi, dfRR_EEFij,dfCBi, dfFrRij, dfCy,
-     PE,BE,  ER, file = file_to_save)
+     PE,BE,  ER, dfCOEF, dffNRB, file = file_to_save)
 return(file_to_save)
 }
 #c <- makeTablesforER(dfConMon = dfConMon, dfresBP = dfresBP)
