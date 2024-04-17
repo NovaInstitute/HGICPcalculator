@@ -35,7 +35,8 @@ make_dfCBi <- function (dfEEF = dfRR_EEFij,
 {
 
 
-  dfEEF <- RR_EEFij %>% ungroup()
+  #dfEEF <- RR_EEFij %>% ungroup()
+  dfEEF <- dfEEF %>% ungroup()
   dfEEF <- dfEEF %>%  select(!!!indexvars, eef, !!frMij.) %>%
     filter(!!sym(frMij.) > minfr) %>%
     group_by(!!!syms(indexvars)) %>%
