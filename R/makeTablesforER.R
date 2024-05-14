@@ -1,8 +1,11 @@
 #' makeTablesforER
-#' @description
-#' @param
-#' @param
-#' @param
+#' @description Calculates the tables that are included in the ER report
+#' @param dfConMon df. Data frame with continuous monitoring data
+#' @param dfresBP df. Data frame with combined results for the Baseline Kitchen Test and the Project Kitchen Test
+#' @param startdate date. Start date for continuous monitoring
+#' @param enddate date. End date for continuous monitoring
+#' @param dfCOEF
+#' @param dffNRB
 #' @return
 #' @export
 #' @import dplyr
@@ -62,4 +65,4 @@ save(dfConMon, dfresBP, dfCPi, dfRR_EEFij,dfCBi, dfFrRij, dfCy,
      PE,BE,  ER, dfCOEF, dffNRB, file = file_to_save)
 return(file_to_save)
 }
-#c <- makeTablesforER(dfConMon = dfConMon, dfresBP = dfresBP)
+

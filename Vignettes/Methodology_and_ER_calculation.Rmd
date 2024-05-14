@@ -30,17 +30,12 @@ library(jellyfi3shR)
 source("../R/makeTablesforER.R")
 ```
 
-
-
 ```{r}
 path1 = "C:/Users/User/Documents/NOVA/KitchenTests/Rda/AllCombinedResults.rda"
 path2 = "C:/Users/User/Documents/NOVA/ContinuousCookstoves/Data/dfCM.rds"
 dfConMon <- readRDS(path2)
 load(path1)
 result.tables <- makeTablesforER(dfConMon = dfConMon, dfresBP = dfresBP)
-#dfresBP <- readRDS(paste0(path,"dfresBP_from_s5.Rds"))
-#dfresB <- readRDS(paste0(path,"dfresB_from_s4.Rds"))
-#dfresP <- readRDS(paste0(path,"dfresP_from_s4.Rds"))
 load(result.tables)
 ```
 
@@ -49,8 +44,6 @@ load(result.tables)
 # dffNRB <- tibble(place = "Lwandlamuni", year = c(2023, 2024), fNRB = c(0.3, 0.31))
 
 ```
-
-
 
 ```{=tex}
 \clearpage
@@ -419,7 +412,7 @@ Where
 
 
 ```{r}
-kable(dfresB %>% unnest(cols = c(data)) %>% 
+kable(dfresBP %>% unnest(cols = c(data_B)) %>% 
         filter(household_qr_code == "6a8af21c1da0835997802ce38148acea") %>% 
         select(place, year, household_qr_code, diffB, frBijk,XBijk_m2,
                XBij_m2),
@@ -430,7 +423,7 @@ kable(dfresB %>% unnest(cols = c(data)) %>%
 
 
 ```{r}
-kable(dfresB %>% select(place, year, household_qr_code, XBij., frBij.,XBij_m2) %>% head() ,
+kable(dfresBP %>% select(place, year, household_qr_code, XBij., frBij.,XBij_m2) %>% head() ,
       digits = 2, booktabs = TRUE, 
       caption = "\\label{tab:dfresB}Sample of data from baseline kitchen test results summarised by household") %>% 
   kableExtra::kable_styling(latex_options = c("HOLD_position",  "scale_down" ))
