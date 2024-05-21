@@ -1,6 +1,3 @@
-
-
-
 #' summariseConMon
 #' @description
 #' Summarise a tibble with daily fire counts for project measures to a total and average count for the monitoring period
@@ -35,7 +32,7 @@ summariseConMon <- function(dfFreqRes_prep = NULL,
                             web3 = FALSE) {
 
   if (is.character(dfFreqRes_prep))  {
-    dfFreqRes_prep <- HGICPcalculator::web3S2R(dfFreqRes_prep)
+    dfFreqRes_prep <- jellyfi3shR::web3S2R(dfFreqRes_prep)
     if (!is.data.frame(dfFreqRes_prep)) {stop("\nI was expecting baselineKT to be the web3storrage address of a dataframe\n")}
   }
 
