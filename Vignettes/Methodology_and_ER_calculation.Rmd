@@ -31,8 +31,13 @@ source("../R/makeTablesforER.R")
 ```
 
 ```{r}
-path1 = "C:/Users/User/Documents/NOVA/KitchenTests/Rda/AllCombinedResults.rda"
-path2 = "C:/Users/User/Documents/NOVA/ContinuousCookstoves/Data/dfCM.rds"
+if (Sys.info()[["user"]] ==  "christiaanpauw"){
+  path1 = "~/KitchenTests/Rda/AllCombinedResults.rda"
+  path2 = "~/ContinuousCookstoves/Data/dfCM.rds"
+} else {
+  path1 = "C:/Users/User/Documents/NOVA/KitchenTests/Rda/AllCombinedResults.rda"
+  path2 = "C:/Users/User/Documents/NOVA/ContinuousCookstoves/Data/dfCM.rds"}
+
 dfConMon <- readRDS(path2)
 load(path1)
 result.tables <- makeTablesforER(dfConMon = dfConMon, dfresBP = dfresBP)
