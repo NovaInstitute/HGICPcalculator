@@ -1,14 +1,14 @@
 #' make_dfCPi
 #'
-#' @param
-#' @param
+#' @param dfConMon data.frame
+#' @param KTresults data.frame
 #' @param indexvars list with characters names. List of variables that uniquely identify subpopulation
-#' @param
-#' @param
-#' @param
-#' @param frMijk
-#' @param XMijk
-#' @param
+#' @param startdate Character. Name of the column with the start date of the monitoring period
+#' @param enddate Character. Name of the column with the end date of the monitoring period
+#' @param N Numeric. Population estimate
+#' @param frMijk Character. Default  "frMijk"
+#' @param XMijk Character. Default "XMijk"
+#' @param XBij Character. Default "XBij"
 #' @param format Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"
 #' @param web3 Logical. Return web3storage address or not
 #'
