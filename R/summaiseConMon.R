@@ -37,15 +37,15 @@ summariseConMon <- function(dfFreqRes_prep = NULL,
   }
 
   dfFreqRes_prep %>%
-    filter(!is.na(!!sym(household_qr_code))) %>%
-    summarise(ndays = length(!!sym(date)),
+    dplyr::filter(!is.na(!!sym(household_qr_code))) %>%
+    dplyr::summarise(ndays = length(!!sym(date)),
               total_frMij = sum(!!sym(frMijk)),
               date_start_monitoring_period = min(!!sym(date)),
               date_end_monitoring_period = max(!!sym(date))) %>%
-    mutate(frMij = total_frMij / ndays) %>%
-    select(!!place, !!year, !!fuel, !!assignment, !!household_qr_code,
+    dplyr::mutate(frMij = total_frMij / ndays) %>%
+    dplyr::select(!!place, !!year, !!fuel, !!assignment, !!household_qr_code,
            ndays, total_frMij, frMij,
            date_start_monitoring_period, date_end_monitoring_period) %>%
-    switchify(format = format) %>%
-    web3lify(web3 = web3)
+    jellyfi3shR::switchify(format = format) %>%
+    jellyfi3shR::web3lify(web3 = web3)
 }
