@@ -49,6 +49,7 @@ if (!is.null(LE)){
     dplyr::summarise(BE = sum(BEi, na.rm = TRUE),
                      PE = sum(PEi, na.rm = TRUE),
                      ER = sum(ERi, na.rm = TRUE))
+
   if (is.null(format) & !web3){
     return(res)
 }
