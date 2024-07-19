@@ -20,11 +20,27 @@ make_dfCPi(
 )
 }
 \arguments{
+\item{dfConMon}{data.frame}
+
+\item{KTresults}{data.frame}
+
 \item{indexvars}{list with characters names. List of variables that uniquely identify subpopulation}
+
+\item{startdate}{Character. Name of the column with the start date of the monitoring period}
+
+\item{enddate}{Character. Name of the column with the end date of the monitoring period}
+
+\item{N}{Numeric. Population estimate}
+
+\item{XBij}{Character. Default "XBij"}
 
 \item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
 
 \item{web3}{Logical. Return web3storage address or not}
+
+\item{frMijk}{Character. Default  "frMijk"}
+
+\item{XMijk}{Character. Default "XMijk"}
 }
 \value{
 tibble

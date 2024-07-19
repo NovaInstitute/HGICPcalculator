@@ -4,7 +4,14 @@
 \alias{calculateER}
 \title{calculateER}
 \usage{
-calculateER(BE, PE, LE, format = NULL, web3 = FALSE)
+calculateER(
+  BE,
+  PE,
+  LE,
+  format = NULL,
+  web3 = FALSE,
+  indexvar = c("place", "year")[1]
+)
 }
 \arguments{
 \item{BE}{tibble from calculateE(  ..., outcome = "BE")}
@@ -16,6 +23,8 @@ calculateER(BE, PE, LE, format = NULL, web3 = FALSE)
 \item{format}{Character. Output format if called as API. one of "json", "csv", "rds", "htmlTable"}
 
 \item{web3}{Logical. Return web3storage address or not}
+
+\item{indexvar}{Character. Default value "place"}
 }
 \value{
 data.frame

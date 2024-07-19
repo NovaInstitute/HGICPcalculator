@@ -25,9 +25,9 @@ calculateE <- function(Cy,
                        format = NULL,
                        web3 = FALSE){
 
-  Cy <- web3Sub(Cy)
-  COEF <- web3Sub(COEF)
-  fNRB <- web3Sub(fNRB)
+  Cy <- jellyfi3shR::web3Sub(Cy)
+  COEF <- jellyfi3shR::web3Sub(COEF)
+  fNRB <- jellyfi3shR::web3Sub(fNRB)
 
   if (!(is_tibble(Cy) & is_tibble(COEF) & is_tibble(fNRB))) stop("Cy and COEF and fNRB must be tibbles")
 
