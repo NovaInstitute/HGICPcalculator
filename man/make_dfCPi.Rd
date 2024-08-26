@@ -8,10 +8,10 @@ make_dfCPi(
   dfConMon = dfConMon,
   KTresults = dfresBP,
   indexvars = c("place", "year", "fuel"),
-  startdate = "date_start_monitoring_period",
-  enddate = "date_end_monitoring_period",
+  startdate = "date_start_monitoring",
+  enddate = "date_end_monitoring",
   N = 19,
-  ndays_cm = "ndays_cm",
+  ndays_cm = "ndays_obs",
   nfire_cm = "nfire_cm",
   XMij = "XMij_m2",
   XBij = "XBij_m2",
@@ -31,6 +31,8 @@ make_dfCPi(
 \item{enddate}{Character. Name of the column with the end date of the monitoring period}
 
 \item{N}{Numeric. Population estimate}
+
+\item{ndays_cm}{Character, Variable with number of observed days, Default "ndays_obs"}
 
 \item{XBij}{Character. Default "XBij"}
 
