@@ -33,7 +33,7 @@ summariseConMon <- function(dfFreqRes_prep = NULL,
 
   if (is.character(dfFreqRes_prep))  {
     dfFreqRes_prep <- jellyfi3shR::web3S2R(dfFreqRes_prep)
-    if (!is.data.frame(dfFreqRes_prep)) {stop("\nI was expecting baselineKT to be the web3storrage address of a dataframe\n")}
+    if (!is.data.frame(dfFreqRes_prep)) {stop("\nI was expecting dfFreqRes_prep to be the web3storrage address of a dataframe\n")}
   }
 
   dfFreqRes_prep %>%
