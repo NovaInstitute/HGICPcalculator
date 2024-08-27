@@ -39,7 +39,8 @@ make_dfConMonij <- function (dfConMonFreq = dfFreqRes_prep,
     nest() %>%
     mutate(date_start_monitoring_period = as.Date(map_dbl(data, ~ min(.[[date]],na.rm = TRUE)),origin = "1970-01-01"),
            date_end_monitoring_period = as.Date(map_dbl(data, ~ max(.[[date]], na.rm = TRUE)),origin = "1970-01-01"),
-           ndays_monitoring = as.integer(date_end_monitoring_period)-as.integer(date_start_monitoring_period),
+           ndays_monitoring = 1 + as.integer(date_end_monitoring_period)-as.integer(date_start_monitoring_period),
+           ndays_obs = map_int(data, ~length(unique(.[[date]]))),
            frMij = map_dbl(data, ~mean(.[[frMijk]], na.rm = TRUE))) %>%
     switchify(format = format) %>%
     web3lify(web3 = web3)
