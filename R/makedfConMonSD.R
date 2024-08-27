@@ -82,7 +82,7 @@ makedfConMonSD <- function(df = NULL,
   if (returnFull)  return(dfFull)
 
   dfFull %>%
-    select(place, year, fuel,household_qr_code, ndays_cm, nfire_cm,
+    select(place, year, fuel,household_qr_code, ndays_cm, ndays_obs, nfire_cm,
            date_start_monitoring, date_end_monitoring, nfire_pday_cm,
            nfire_pday_cm)
 
