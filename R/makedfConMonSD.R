@@ -75,16 +75,15 @@ makedfConMonSD <- function(df = NULL,
            ) %>%
     filter(nobs >= minobs) %>%
     select(-cycle) %>%
-    rename("household_qr_code" = {{id_var}},
+    rename("qr_code_household" = {{id_var}},
            "sensor_location" = {{sensor_locationvar}},
            "place" = {{placevar}})
 
   if (returnFull)  return(dfFull)
 
   dfFull %>%
-    select(place, year, fuel,household_qr_code, ndays_cm, ndays_obs, nfire_cm,
+    select(place, year, fuel, qr_code_household, ndays_cm, ndays_obs, nfire_cm,
            date_start_monitoring, date_end_monitoring, nfire_pday_cm,
            nfire_pday_cm)
-
 
 }
