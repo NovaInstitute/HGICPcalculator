@@ -8,6 +8,8 @@ make_dfCPi(
   dfConMon = dfConMon,
   KTresults = dfresBP,
   indexvars = c("place", "year", "fuel"),
+  MPvar = "Period",
+  durationVar = "Duration",
   startdate = "date_start_monitoring",
   enddate = "date_end_monitoring",
   N = 19,
