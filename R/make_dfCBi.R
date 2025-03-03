@@ -29,15 +29,18 @@ make_dfCBi <- function (dfEEF = dfRR_EEFij,
                         eef = "eef",
                         CPi = "CPi",
                         minfr = 5,
-                        N = 1000,
+                        N = NULL,
                         format = NULL,
                         web3 = FALSE)
 {
-
+ if (is.null(N)){
+    stop("N must be provided")
+  }
 
   #dfEEF <- RR_EEFij %>% ungroup()
-  dfEEF <- dfEEF %>% ungroup()
-  dfEEF <- dfEEF %>%  select(!!!indexvars, eef, !!frMij.) %>%
+  dfEEF <- dfEEF %>%
+    ungroup() %>%
+    select(!!!indexvars, eef, !!frMij.) %>%
     filter(!!sym(frMij.) > minfr) %>%
     group_by(!!!syms(indexvars)) %>%
     summarise(mean_eef = mean(!!sym(eef), na.rm = TRUE))
