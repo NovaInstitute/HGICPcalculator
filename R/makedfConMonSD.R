@@ -9,7 +9,7 @@
 #' @param dfHouse tibble with house - instrument pairings
 #' @param ignorevalue Numeric. Value to ignore indicating sensor not working. Default is 0
 #' @param sensor_id Character. Name of variable with sensor ID. Default is "sensor_id"
-#' @param placevar Character. Name of variable with place. Default is "mainplace"
+#' @param placevar Character. Name of variable with place. Default is "place"
 #' @param sensor_locationvar Character. Name of variable with sensor location. Default is "sensor_location"
 #' @param valuevar Character. Name of variable with temperature. Default is "stove_temp"
 #' @param refvar Character. Name of variable with reference temperature. Default is "box_temp"
@@ -23,7 +23,7 @@
 #' @examples
 #' dft <- decodeSDcards(path = "Data/SDcards")
 #' dfTemp <- dft %>% select(file_id, sensor_id, data12) %>% unnest(data12)
-#' makedfConMonSD(df = dfTemp, dfHouse = dfSDhouse %>% filter(!is.na(mainplace)),datevar = "date", fileidvar = "file_id", sensor_location = "sensor_location", id_var = "qr_code_household", valuevar = "stove_temp")
+#' makedfConMonSD(df = dfTemp, dfHouse = dfSDhouse %>% filter(!is.na(place)),datevar = "date", fileidvar = "file_id", sensor_location = "sensor_location", id_var = "qr_code_household", valuevar = "stove_temp")
 #'
 makedfConMonSD <- function(df = NULL,
                     dfHouse = NULL,
@@ -34,7 +34,7 @@ makedfConMonSD <- function(df = NULL,
                     valuevar = "stove_temp",
                     sensor_id = "sensor_id",
                     datevar = "date",
-                    placevar = "mainplace",
+                    placevar = "place",
                     fileidvar = "file_id",
                     sensor_locationvar = "sensor_location",
                     id_var = "qr_code_household",

@@ -28,7 +28,7 @@ make_dfCPi <- function (dfConMon = dfConMon,
                         durationVar = "Duration",
                         startdate = "date_start_monitoring",
                         enddate = "date_end_monitoring",
-                        N = 19,
+                        N = NULL,
                         ndays_cm = "ndays_obs",
                         nfire_cm = "nfire_cm",
                         XMij = "XMij_m2",
@@ -37,6 +37,10 @@ make_dfCPi <- function (dfConMon = dfConMon,
                         web3 = FALSE)
 
 {
+
+  if (is.null(N)){
+    stop("N must be provided")
+  }
 dfConMon_sum <- dfConMon %>% group_by(!!!syms(c(indexvars, MPvar))) %>%
     summarise({{startdate}} := min(!!sym(startdate)),
               {{enddate}} := max(!!sym(enddate)),

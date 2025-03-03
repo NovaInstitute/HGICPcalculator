@@ -14,7 +14,7 @@ makedfConMonSD(
   valuevar = "stove_temp",
   sensor_id = "sensor_id",
   datevar = "date",
-  placevar = "mainplace",
+  placevar = "place",
   fileidvar = "file_id",
   sensor_locationvar = "sensor_location",
   id_var = "qr_code_household",
@@ -41,7 +41,7 @@ makedfConMonSD(
 
 \item{datevar}{Character. Name of variable with date variable}
 
-\item{placevar}{Character. Name of variable with place. Default is "mainplace"}
+\item{placevar}{Character. Name of variable with place. Default is "place"}
 
 \item{fileidvar}{Character. Name of variable with file ID}
 
@@ -63,6 +63,6 @@ data has columns:  date <dttm>, temp <dbl>,  ibutton_id <chr> file_id <chr>
 \examples{
 dft <- decodeSDcards(path = "Data/SDcards")
 dfTemp <- dft \%>\% select(file_id, sensor_id, data12) \%>\% unnest(data12)
-makedfConMonSD(df = dfTemp, dfHouse = dfSDhouse \%>\% filter(!is.na(mainplace)),datevar = "date", fileidvar = "file_id", sensor_location = "sensor_location", id_var = "qr_code_household", valuevar = "stove_temp")
+makedfConMonSD(df = dfTemp, dfHouse = dfSDhouse \%>\% filter(!is.na(place)),datevar = "date", fileidvar = "file_id", sensor_location = "sensor_location", id_var = "qr_code_household", valuevar = "stove_temp")
 
 }
